@@ -104,7 +104,7 @@ the agent starts on the app server.
 
 ## Phase 1: Project Setup [Agent]
 
-- [ ] **T1.1 package.json and tsconfig.json**
+- [x] **T1.1 package.json and tsconfig.json**
   Complete `package.json`: `"type": "module"`, `packageManager`
   (`pnpm@12.21.0`), `engines` (`node` 26.13.1), scripts `dev`
   (`node --watch src/main.mts`), `start`, `lint`, `fmt`, `fmt:check`,
