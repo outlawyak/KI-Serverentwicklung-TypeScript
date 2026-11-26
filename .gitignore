@@ -1,4 +1,6 @@
 node_modules/
-.env
+# Every .env variant (also copies such as ".env 2"), except the documented example
+.env*
+!.env.example
 certs/
 drizzle/
