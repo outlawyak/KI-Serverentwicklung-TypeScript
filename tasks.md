@@ -14,6 +14,8 @@ How to use:
 - Before each commit from phase 1 on: `pnpm run lint`, `pnpm run fmt:check`,
   `pnpm run tsc`
 - At the end of each phase, check the relevant items in `docs/review-checklist.md`
+- Keep `README.md` current: update it in the same commit when a task changes
+  setup, `.env` variables, scripts, endpoints or the layout (rule in `AGENTS.md`)
 - Patterns and known bugs of the lecturer's examples: `docs/style-analysis.md`;
   workflow per entity: `docs/recipe-new-entity.md`
 

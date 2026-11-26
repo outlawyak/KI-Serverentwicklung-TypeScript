@@ -243,6 +243,11 @@ foreign keys with `ON DELETE CASCADE`, 1:1 via a `UNIQUE` foreign key,
   - `pnpm run tsc` (tsc --noEmit)
 - At the end of each phase, check the relevant items in
   `docs/review-checklist.md`
+- Keep `README.md` up to date: when a task changes setup, prerequisites,
+  `.env` variables, containers, scripts, endpoints or the project layout,
+  update the README in the same commit as the task. At the end of each
+  phase, update the status note at the top of the README. Test every command
+  you put in the README before committing it
 - If a requirement is unclear, ask instead of guessing
 
 ## Out of Scope (crossed out by the lecturer)
