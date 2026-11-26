@@ -43,7 +43,8 @@
         "typescript/ban-ts-comment": "error",
         "no-console": "error",
         "node/no-process-env": "error",
-        "import/consistent-type-specifier-style": ["error", "prefer-inline"],
+        // Off: would forbid `import type` for type-only imports (no-import-type-side-effects wants it)
+        "import/consistent-type-specifier-style": "off",
         // `c` is the usual name of the Hono context
         "id-length": ["error", { "exceptions": ["c"] }],
 

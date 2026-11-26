@@ -162,7 +162,7 @@ the agent starts on the app server.
   Done when: `curl --http2 -i https://localhost:3000/health` responds with
   `HTTP/2 200`.
 
-- [ ] **T2.2 Problem Details (RFC 9457)**
+- [x] **T2.2 Problem Details (RFC 9457)**
   Central error handling: `app.onError` and `app.notFound` return
   `application/problem+json` with `type`, `title`, `status`, `detail`,
   `instance`; the field is **`status`** (not `statusCode` as in the example).

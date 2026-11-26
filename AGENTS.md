@@ -81,7 +81,10 @@ As in the lecturer's examples (E = enforced by configuration):
 - **`type` instead of `interface`** (E)
 - **No `enum`**, no `namespace`, no parameter properties (E:
   `erasableSyntaxOnly`); use union types or `as const` instead
-- **Inline type imports**: `import { type Foo, bar } from './x.mts'` (E)
+- **Inline type imports** when types and values are mixed:
+  `import { type Foo, bar } from './x.mts'` (E); **`import type`** when an import
+  has only types: `import type { Context } from 'hono'` (E, developer's
+  decision in T2.2: an inline-only import leaves an empty runtime import)
 - **No namespace imports** (`import * as`), not even in the generated
   Drizzle code (E)
 - Imports sorted according to the oxlint rule `sort-imports`
@@ -134,8 +137,10 @@ Checked with oxlint 1.95.0 and a deliberate test violation:
   middleware continues after `await next()`).
   Also off: `eslint/sort-keys` (not required, would reorder generated
   Drizzle code)
-- Adjusted: `import/consistent-type-specifier-style` set to `prefer-inline`
-  (inline type imports); `id-length` allows `c` (Hono context)
+- Adjusted: `import/consistent-type-specifier-style` off, so type-only imports
+  can use `import type` (`typescript/consistent-type-imports` with inline style
+  and `typescript/no-import-type-side-effects` enforce the convention);
+  `id-length` allows `c` (Hono context)
 - **Not supported:** "no `for` loops" (oxlint has no `no-restricted-syntax`),
   so it is a review item, not enforced
 - Added beyond the list above, because this file requires it:
