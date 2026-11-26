@@ -138,6 +138,15 @@ the agent starts on the app server.
   `process.env` outside of it. Node loads `.env` via `--env-file-if-exists`.
   Done when: missing or invalid variables abort the start with a clear message.
 
+- [x] **T1.5 Cross-platform (macOS and Windows)**
+  The repo must work on macOS and Windows (and Linux, for the lecturer).
+  `.gitattributes` keeps LF line endings on every system. Setup commands that
+  need bash (`sed`, `openssl`, `set -a`) are replaced with Node scripts run
+  via pnpm: `pnpm run setup:env` creates `.env` with random secrets,
+  `pnpm run token` fetches a Keycloak token. README with instructions for
+  both systems; rule in `AGENTS.md`.
+  Done when: no README step needs bash, and both scripts work.
+
 ---
 
 ## Phase 2: Server Skeleton [Agent]

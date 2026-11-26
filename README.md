@@ -10,14 +10,21 @@ Requirements: [requirements.md](requirements.md), task plan: [tasks.md](tasks.md
 
 ## Prerequisites
 
-| Tool | Version | Notes |
-| --- | --- | --- |
-| Node.js | 26.13.1 | runs `.mts` files directly (type stripping), no build step |
-| pnpm | 12.21.0 | `npm install -g pnpm@12.21.0`; pnpm also switches to this version itself (`devEngines`) |
-| Docker | with Compose v2 | for PostgreSQL 18 and Keycloak 26 |
-| mkcert | any | local TLS certificate for HTTP/2 (needed from T2.1 on) |
+The project works on **macOS and Windows** (and Linux). Every command below is the same on all systems; run them
+in Terminal (macOS) or PowerShell (Windows) from the project folder.
 
-Clone into a path **without spaces or umlauts** (e.g. `~/projects/ai-server-typescript`).
+| Tool | Version | macOS | Windows |
+| --- | --- | --- | --- |
+| Node.js | 26.13.1 | `brew install node` or [nodejs.org](https://nodejs.org) | installer from [nodejs.org](https://nodejs.org) |
+| pnpm | 12.21.0 | `npm install -g pnpm@12.21.0` | `npm install -g pnpm@12.21.0` |
+| Docker | with Compose v2 | [Docker Desktop](https://www.docker.com/products/docker-desktop/) | [Docker Desktop](https://www.docker.com/products/docker-desktop/) (WSL 2 backend) |
+| mkcert | any | `brew install mkcert` | `winget install FiloSottile.mkcert` |
+| Git | any | included with Xcode tools | [Git for Windows](https://git-scm.com/download/win) |
+
+Node runs the `.mts` files directly (type stripping), there is no build step. pnpm also switches to 12.21.0 by
+itself (`devEngines` in `package.json`). Clone into a path **without spaces or umlauts**
+(e.g. `~/projects/ai-server-typescript` or `C:\projects\ai-server-typescript`). `.gitattributes` keeps LF line
+endings on Windows too.
 
 ## Setup
 
@@ -32,14 +39,15 @@ The esbuild build scripts are denied on purpose in `pnpm-workspace.yaml`; they a
 ### 2. Create `.env`
 
 All configuration comes from `.env`, which is never committed. [.env.example](.env.example) documents every
-variable. Copy it and generate random values for the five empty secrets:
+variable. Create `.env` from it, with random values for the five empty secrets:
 
 ```shell
-cp .env.example .env
-for v in POSTGRES_PASSWORD KC_BOOTSTRAP_ADMIN_PASSWORD KC_CLIENT_SECRET KC_ADMIN_USER_PASSWORD KC_USER_PASSWORD; do
-  sed -i.bak "s/^$v=\$/$v=$(openssl rand -hex 24)/" .env
-done && rm .env.bak
+pnpm run setup:env
 ```
+
+The script ([scripts/setup-env.mts](scripts/setup-env.mts)) never overwrites an existing `.env`. If you delete
+`.env` and generate a new one, recreate the containers too (`docker compose down -v`), because they keep the old
+passwords.
 
 The server validates `.env` on startup ([src/config/config.mts](src/config/config.mts)) and refuses to start if a
 variable is missing or invalid, naming the variable but never its value.
@@ -63,7 +71,8 @@ other projects.
 nor reviews. To reload the script, recreate the volume (all data is lost):
 
 ```shell
-docker compose down -v && docker compose up -d --wait
+docker compose down -v
+docker compose up -d --wait
 ```
 
 **Keycloak:** whenever the container is created, the realm is imported from
@@ -74,15 +83,16 @@ the file; Keycloak fills them in from `.env`.
 | --- | --- | --- |
 | `games` | `games-client` (confidential, direct access grants) | `game-admin` with the client role `admin`, `game-user` without a role |
 
-Fetch a token with the password grant:
+Fetch an access token with the password grant ([scripts/token.mts](scripts/token.mts)); it is printed to the
+terminal, so only use it locally:
 
 ```shell
-(set -a; . ./.env; set +a
-curl -s http://localhost:8880/realms/games/protocol/openid-connect/token \
-  -d grant_type=password -d client_id=games-client \
-  --data-urlencode "client_secret=$KC_CLIENT_SECRET" \
-  -d username=game-admin --data-urlencode "password=$KC_ADMIN_USER_PASSWORD")
+pnpm --silent run token game-admin
+pnpm --silent run token game-user
 ```
+
+`$( ... )` works in zsh, bash and PowerShell, so the token can be passed to curl the same way on every system:
+`curl -H "Authorization: Bearer $(pnpm --silent run token game-admin)" ...`
 
 Keycloak has no volume: `docker compose up -d --force-recreate keycloak` resets it to the state in the repo
 (e.g. after locking yourself out of the admin console). Admin accounts created in the console are lost then.
@@ -104,6 +114,8 @@ Keycloak has no volume: `docker compose up -d --force-recreate keycloak` resets 
 | `pnpm run fmt` | format with oxfmt |
 | `pnpm run fmt:check` | check the formatting |
 | `pnpm run db:studio` | Drizzle Studio |
+| `pnpm run setup:env` | create `.env` with random secrets |
+| `pnpm --silent run token <user>` | print a Keycloak access token for `game-admin` or `game-user` |
 
 Before every commit, `pnpm run lint`, `pnpm run fmt:check` and `pnpm run tsc` must pass.
 
@@ -124,6 +136,7 @@ db/schema.sql                tables and test data
 extras/keycloak/             realm import
 src/config/config.mts        validated configuration from .env
 src/db/                      Drizzle schema and relations
+scripts/                     setup helpers (.env, token), same on macOS and Windows
 drizzle.config.mts           drizzle-kit (pull, Studio)
 .oxlintrc.json, .oxfmtrc.json  linter and formatter
 docs/                        analysis of the lecturer's examples, recipe, review checklist

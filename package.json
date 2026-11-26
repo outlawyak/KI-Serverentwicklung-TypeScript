@@ -11,7 +11,9 @@
         "fmt": "oxfmt",
         "fmt:check": "oxfmt --check",
         "tsc": "tsc --noEmit",
-        "db:studio": "drizzle-kit studio --config drizzle.config.mts"
+        "db:studio": "drizzle-kit studio --config drizzle.config.mts",
+        "setup:env": "node scripts/setup-env.mts",
+        "token": "node --env-file-if-exists=.env scripts/token.mts"
     },
     "dependencies": {
         "drizzle-orm": "^0.45.4",

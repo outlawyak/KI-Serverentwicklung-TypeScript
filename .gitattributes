@@ -1,0 +1,7 @@
+# LF on every system, also on Windows checkouts: oxfmt checks for LF, and
+# db/schema.sql and the realm file are read inside Linux containers
+# https://git-scm.com/docs/gitattributes#_end_of_line_conversion
+* text=auto eol=lf
+
+*.pdf binary
+*.png binary

@@ -8,5 +8,5 @@
     "compilerOptions": {
         "noEmit": true
     },
-    "include": ["src/**/*.mts", "drizzle.config.mts"]
+    "include": ["src/**/*.mts", "scripts/**/*.mts", "drizzle.config.mts"]
 }

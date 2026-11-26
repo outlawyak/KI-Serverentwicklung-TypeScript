@@ -127,8 +127,10 @@ Checked with oxlint 1.95.0 and a deliberate test violation:
   in `.oxlintrc.json`, each with its reason: `import/no-named-export`,
   `import/group-exports`, `import/exports-last`, `eslint/no-undefined`,
   `eslint/one-var`, `unicorn/no-array-for-each`, `oxc/no-async-await`,
-  `import/no-nodejs-modules`. Also off: `eslint/sort-keys` (not required,
-  would reorder generated Drizzle code)
+  `import/no-nodejs-modules`, `node/no-top-level-await`,
+  `import/no-relative-parent-imports` (the folder layout needs `../`).
+  Also off: `eslint/sort-keys` (not required, would reorder generated
+  Drizzle code)
 - Adjusted: `import/consistent-type-specifier-style` set to `prefer-inline`
   (inline type imports); `id-length` allows `c` (Hono context)
 - **Not supported:** "no `for` loops" (oxlint has no `no-restricted-syntax`),
@@ -248,6 +250,11 @@ foreign keys with `ON DELETE CASCADE`, 1:1 via a `UNIQUE` foreign key,
   update the README in the same commit as the task. At the end of each
   phase, update the status note at the top of the README. Test every command
   you put in the README before committing it
+- **macOS and Windows** (and Linux for the lecturer): everything in the repo
+  must work on all of them. No bash-only commands in the README or in
+  `package.json` scripts (`sed`, `openssl`, `set -a`, `&&` chains, `rm -rf`);
+  write a Node script in `scripts/` and run it via pnpm instead. LF line
+  endings (`.gitattributes`), forward slashes in paths, exact casing in imports
 - If a requirement is unclear, ask instead of guessing
 
 ## Out of Scope (crossed out by the lecturer)

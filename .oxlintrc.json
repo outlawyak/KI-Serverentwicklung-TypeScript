@@ -56,13 +56,15 @@
         "unicorn/no-array-for-each": "off", // `forEach` instead of `for` loops
         "oxc/no-async-await": "off", // `async`/`await` is required
         "import/no-nodejs-modules": "off", // `node:http2`, `node:process` etc.
+        "node/no-top-level-await": "off", // top-level `await` is required
+        "import/no-relative-parent-imports": "off", // layout needs `../service/`, `../../db/`
         // Off: not required by AGENTS.md; would reorder every object, generated Drizzle code included
         "eslint/sort-keys": "off"
     },
     "overrides": [
         {
             // The only places that read environment variables
-            "files": ["src/config/**/*.mts", "drizzle.config.mts"],
+            "files": ["src/config/**/*.mts", "drizzle.config.mts", "scripts/token.mts"],
             "rules": {
                 "node/no-process-env": "off"
             }
