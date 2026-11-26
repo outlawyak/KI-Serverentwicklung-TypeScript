@@ -46,6 +46,27 @@ If a document in `docs/` contradicts this file, this file wins.
 Do not add dependencies without saying why. Do not introduce alternatives
 (no Express, no Prisma, no ESLint/Prettier, no npm/yarn).
 
+### Compatibility Notes (T0.5)
+Checked on 2026-11-26 with Node 26.13.1 and pnpm 12.21.0. All planned
+packages install, import and run from a `.mts` file with `node file.mts`;
+`tsc --noEmit`, oxlint, oxfmt and drizzle-kit (with a `.mts` config) work.
+Versions resolved: hono 4.13.22, @hono/node-server 2.1.11, zod 4.6.7,
+@hono/zod-validator 0.9.1, drizzle-orm 0.45.4, drizzle-kit 0.31.11,
+pg 8.23.1, jose 6.2.18, typescript 7.0.2, oxlint 1.95.0, oxfmt 0.80.0.
+- **esbuild build scripts (drizzle-kit)**: pnpm 12 blocks them, and
+  `pnpm add`/`pnpm install --frozen-lockfile` then fail with
+  `ERR_PNPM_IGNORED_BUILDS`. The scripts are not needed (the platform binary
+  comes as an optional dependency). Decision: deny them explicitly with
+  `allowBuilds: { esbuild: false }` in `pnpm-workspace.yaml` (T1.1)
+- **drizzle-kit config needs `export default`**: with only a named export,
+  drizzle-kit fails with "Please specify 'dialect' param". Workaround:
+  `// oxlint-disable-next-line import/no-default-export` in
+  `drizzle.config.mts` only (T0.10, T1.2)
+- **TypeScript 7** (native compiler) is resolved by default; it works with
+  the three `@tsconfig` bases and enforces `noUncheckedIndexedAccess`
+- drizzle-kit pulls in deprecated `@esbuild-kit/*` subdependencies (warning
+  only, no action)
+
 ## TypeScript "State of the Art"
 As in the lecturer's examples (E = enforced by configuration):
 - `tsconfig.json` extends `@tsconfig/strictest`, `@tsconfig/node26` and

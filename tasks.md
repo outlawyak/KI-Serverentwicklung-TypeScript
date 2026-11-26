@@ -45,7 +45,7 @@ the agent starts on the app server.
   Note: Node 24 was last active on this machine, and pnpm was not on the `PATH`.
   Done when: `node --version` prints 26.13.1 and `pnpm --version` prints 12.21.0.
 
-- [ ] **T0.5 Check compatibility**
+- [x] **T0.5 Check compatibility**
   In a throwaway folder, create a project with Node 26 and install all
   planned packages: hono, @hono/node-server, zod, @hono/zod-validator,
   drizzle-orm, drizzle-kit, pg, @types/pg, jose, typescript, @types/node,
