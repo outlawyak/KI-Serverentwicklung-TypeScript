@@ -44,11 +44,11 @@ const statusOf = (error: Error): ContentfulStatusCode | undefined => {
  * @returns Problem Details response
  */
 export const handleError = (error: Error, c: Context): Response => {
-    // Invalid request body: every invalid field with its path, without the sent value
+    // Invalid body or query: every invalid field with its path, without the sent value
     if (error instanceof z.ZodError) {
         return problemResponse(c, {
             status: HttpStatus.UnprocessableContent,
-            detail: 'The request body contains invalid fields',
+            detail: 'The request contains invalid fields',
             extensions: {
                 errors: error.issues.map(({ path, message }) => ({ path: path.join('.'), message })),
             },

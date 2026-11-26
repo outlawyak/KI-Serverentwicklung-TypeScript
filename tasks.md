@@ -210,7 +210,7 @@ the agent starts on the app server.
   exist. Check the ID with an anchored regex: `/rest/games/1abc` → 404.
   Done when: works for existing and missing IDs.
 
-- [ ] **T4.3 GET with query parameters**
+- [x] **T4.3 GET with query parameters**
   `GET /rest/games?title=&genre=` filters the games (substring match,
   case-insensitive for the title). No pagination (crossed out).
   Done when: the filters return the expected results.

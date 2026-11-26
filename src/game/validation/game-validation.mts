@@ -59,7 +59,21 @@ export const GameDetailsCreateSchema = z.compile(GameDetailsSchema).readonly();
 /** New review of a game (`POST /rest/games/:id/reviews`). */
 export const ReviewCreateSchema = z.compile(ReviewSchema.omit({ id: true })).readonly();
 
+/**
+ * Query parameters of the search (`GET /rest/games?title=&genre=`). Unknown
+ * parameters are rejected, so a typo such as `?titel=` does not return all games.
+ */
+export const GameQuerySchema = z
+    .compile(
+        z.strictObject({
+            title: z.string().trim().exactOptional(),
+            genre: z.string().trim().exactOptional(),
+        }),
+    )
+    .readonly();
+
 export type GameCreate = z.infer<typeof GameCreateSchema>;
 export type GameUpdate = z.infer<typeof GameUpdateSchema>;
 export type GameDetailsCreate = z.infer<typeof GameDetailsCreateSchema>;
 export type ReviewCreate = z.infer<typeof ReviewCreateSchema>;
+export type GameQuery = z.infer<typeof GameQuerySchema>;
