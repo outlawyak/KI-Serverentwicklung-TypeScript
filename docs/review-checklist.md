@@ -7,14 +7,14 @@
 - [x] PostgreSQL 18/19 and Keycloak run as containers
 - [x] Keycloak: 1 realm, 1 client, at least 1 user and 1 role
 - [x] `schema.mts` and `relations.mts` derived from Drizzle; many small commits
-- [ ] Response demonstrably over HTTP/2
+- [x] Response demonstrably over HTTP/2
 - [ ] GET with path or query parameter; `If-None-Match` returns 304
 - [ ] POST: Zod, 201, `Location` can be fetched
 - [ ] PUT or PATCH: Zod, `If-Match`, new `ETag`
 - [ ] 1:1 and 1:N visible, primary keys generated
 - [ ] `created_at` and `updated_at` are set; `updated_at` changes on UPDATE
 - [ ] At least one method protected by a role; 401 and 403 checked
-- [ ] Problem Details also for 404, 406 and 500, with `status`
+- [x] Problem Details also for 404, 406 and 500, with `status`
 - [ ] Demonstrable requests **or** integration tests over HTTP/2
 - [x] DB browser or Drizzle Studio ready
 - [ ] oxlint and oxfmt without errors

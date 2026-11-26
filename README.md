@@ -5,8 +5,9 @@ Für das Wahlfach "KI-gestützte Serverentwicklung"
 A small REST server prototype for games, built with Hono, Drizzle ORM, PostgreSQL and Keycloak.
 Requirements: [requirements.md](requirements.md), task plan: [tasks.md](tasks.md).
 
-> **Status:** infrastructure and project setup are done (phases 0 and 1). The HTTP/2 server and the REST
-> endpoints follow in phases 2–5; this README is extended with them (T6.4).
+> **Status:** infrastructure, project setup and the server skeleton are done (phases 0–2): HTTP/2 with TLS 1.3,
+> `GET /health` and Problem Details for every error. The REST endpoints follow in phases 3–5; this README is
+> extended with them.
 
 ## Prerequisites
 
