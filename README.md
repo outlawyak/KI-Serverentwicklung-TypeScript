@@ -148,7 +148,7 @@ Base URL `https://localhost:3000`. Every response is JSON; every error is Proble
 | `POST` | `/rest/games` | `201` without body and `Location: https://localhost:3000/rest/games/<id>`; optional `details` and `reviews` are created in the same transaction; invalid JSON → `400`, invalid fields → `422` with `errors` |
 | `POST` | `/rest/games/{id}/details` | `201` without body, `Location` is the game; `404` without game, `409` if the game already has details |
 | `POST` | `/rest/games/{id}/reviews` | `201` without body, `Location` is the game (it lists its reviews); `404` without game |
-| `PUT` | `/rest/games/{id}` | `204` with the new `ETag`; body: `title`, `genre`, `releaseDate` (`null` to clear it); `If-Match: "<version>"` missing → `428`, wrong format or not the current version → `412`; `404`, `400`, `422` as above |
+| `PUT` | `/rest/games/{id}` | **role `admin`** (`401` without valid token, `403` without the role); `204` with the new `ETag`; body: `title`, `genre`, `releaseDate` (`null` to clear it); `If-Match: "<version>"` missing → `428`, wrong format or not the current version → `412`; `404`, `400`, `422` as above |
 | `GET` | `/rest/games/{id}` | `200` with the game, its details and reviews and `ETag: "<version>"`; `304` without body if `If-None-Match` matches; `404` if it does not exist |
 
 IDs are 1 to 10 digits without a leading zero: `/rest/games/1abc` or `/rest/games/01000` return `404`.
@@ -161,11 +161,13 @@ curl --http2 -i --cacert "$(mkcert -CAROOT)/rootCA.pem" https://localhost:3000/r
 curl --http2 -i --cacert "$(mkcert -CAROOT)/rootCA.pem" -H 'If-None-Match: "0"' https://localhost:3000/rest/games/1000
 ```
 
-Lost-update protection for `PUT`: send the version you have read in `If-Match`. Only that exact version is
-accepted; afterwards the response carries the new `ETag`:
+`PUT` is the only protected method: it needs an access token of a user with the client role `admin`
+(`game-admin`). Without a valid token the answer is `401`, with a token of `game-user` it is `403`.
+Lost-update protection: send the version you have read in `If-Match`. Only that exact version is accepted;
+afterwards the response carries the new `ETag`:
 
 ```shell
-curl --http2 -i --cacert "$(mkcert -CAROOT)/rootCA.pem" -X PUT -H 'If-Match: "0"' -H 'Content-Type: application/json' -d '{"title":"Celeste","genre":"Platformer","releaseDate":"2018-01-25"}' https://localhost:3000/rest/games/1003
+curl --http2 -i --cacert "$(mkcert -CAROOT)/rootCA.pem" -X PUT -H "Authorization: Bearer $(pnpm --silent run token game-admin)" -H 'If-Match: "0"' -H 'Content-Type: application/json' -d '{"title":"Celeste","genre":"Platformer","releaseDate":"2018-01-25"}' https://localhost:3000/rest/games/1003
 ```
 
 In Windows PowerShell 5.1 the inner quotes get lost when passed to `curl.exe`; write `'If-None-Match: \"0\"'` there,
@@ -212,6 +214,7 @@ src/db/                      Drizzle schema, relations and client (connection po
 src/game/router/             REST routes for games
 src/game/service/            reading and writing games (no HTTP), DTO, errors
 src/game/validation/         Zod schemas for the request bodies
+src/security/                JWT verification with jose, client roles (rolesRequired)
 scripts/                     setup helpers (.env, token), same on macOS and Windows
 certs/                       local TLS certificate (not committed)
 drizzle.config.mts           drizzle-kit (pull, Studio)

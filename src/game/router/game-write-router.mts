@@ -21,6 +21,7 @@ import { HttpStatus } from '../../http-status.mts';
 import { gameIdOf } from './game-id.mts';
 import { problemResponse } from '../../problem-details.mts';
 import { readJsonBody } from '../../request-body.mts';
+import { rolesRequired } from '../../security/roles-required.mts';
 
 /** Absolute URL of a game, for the `Location` header; scheme and host from the request. */
 const gameUrl = (requestUrl: string, id: number): string => `${new URL(requestUrl).origin}${gamesPath}/${id}`;
@@ -59,9 +60,10 @@ gameWriteRouter.post(`/${idParameter}/reviews`, async (c) => {
     return c.body(null, HttpStatus.Created);
 });
 
+// The only protected method: client role `admin` (401 without valid token, 403 without the role).
 // Lost-update protection: If-Match required (428), exactly the current version (otherwise 412).
 // The service checks the version in the same UPDATE statement, so concurrent updates cannot both succeed
-gameWriteRouter.put(`/${idParameter}`, async (c) => {
+gameWriteRouter.put(`/${idParameter}`, rolesRequired('admin'), async (c) => {
     const id = gameIdOf(c);
     if (id === undefined) {
         return c.notFound();

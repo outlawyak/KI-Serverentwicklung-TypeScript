@@ -260,7 +260,7 @@ the agent starts on the app server.
   Done when: a valid Keycloak token is accepted, a tampered or missing one
   is rejected.
 
-- [ ] **T5.2 One protected method with a role**
+- [x] **T5.2 One protected method with a role**
   `PUT /rest/games/:id` with `rolesRequired('admin')`; role from
   `resource_access[<clientId>].roles` (client role), otherwise 403 as
   Problem Details. All other routes stay public.
