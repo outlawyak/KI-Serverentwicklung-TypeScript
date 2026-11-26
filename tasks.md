@@ -298,7 +298,7 @@ the agent starts on the app server.
   examples for conditional GET and `If-Match`, note on the AI agent used.
   Done when: a fresh clone can be started by following the README.
 
-- [ ] **T6.5 Check against the checklist** [You]
+- [x] **T6.5 Check against the checklist** [You]
   Go through the checklist in `requirements.md` and `docs/review-checklist.md`
   and tick every item. From a fresh clone: `pnpm install --frozen-lockfile`,
   `pnpm run tsc`, `pnpm run lint`, `pnpm run fmt:check` without findings,
