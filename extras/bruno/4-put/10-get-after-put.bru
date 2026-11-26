@@ -1,0 +1,21 @@
+meta {
+  name: GET after PUT
+  type: http
+  seq: 10
+}
+
+get {
+  url: {{newGameUrl}}
+  body: none
+  auth: none
+}
+
+tests {
+  test('status 200', () => expect(res.status).to.equal(200));
+  test('version and updated_at changed', () => {
+    expect(res.body.version).to.equal(1);
+    expect(res.body.genre).to.equal('Puzzle Platformer');
+    expect(new Date(res.body.updatedAt).getTime()).to.be.above(new Date(res.body.createdAt).getTime());
+  });
+  test('ETag is the new version', () => expect(res.headers.etag).to.equal('"1"'));
+}

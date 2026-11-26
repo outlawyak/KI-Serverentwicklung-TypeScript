@@ -70,7 +70,7 @@
     "overrides": [
         {
             // The only places that read environment variables
-            "files": ["src/config/**/*.mts", "drizzle.config.mts", "scripts/token.mts"],
+            "files": ["src/config/**/*.mts", "drizzle.config.mts", "scripts/token.mts", "scripts/setup-bruno.mts"],
             "rules": {
                 "node/no-process-env": "off"
             }

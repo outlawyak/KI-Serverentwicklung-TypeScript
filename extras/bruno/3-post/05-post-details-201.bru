@@ -1,0 +1,28 @@
+meta {
+  name: POST details 201
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{newGameUrl}}/details
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "description": "Created by Bruno",
+    "developer": "Bruno Studio",
+    "publisher": null
+  }
+}
+
+tests {
+  test('status 201', () => expect(res.status).to.equal(201));
+  test('Location', () => expect(res.headers.location).to.equal(bru.getVar('newGameUrl')));
+}

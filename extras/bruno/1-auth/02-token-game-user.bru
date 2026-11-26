@@ -1,0 +1,28 @@
+meta {
+  name: Token game-user
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{keycloakUrl}}/realms/{{realm}}/protocol/openid-connect/token
+  body: formUrlEncoded
+  auth: none
+}
+
+body:form-urlencoded {
+  grant_type: password
+  client_id: {{clientId}}
+  client_secret: {{process.env.KC_CLIENT_SECRET}}
+  username: game-user
+  password: {{process.env.KC_USER_PASSWORD}}
+}
+
+script:post-response {
+  bru.setVar('userToken', res.body.access_token);
+}
+
+tests {
+  test('status 200', () => expect(res.status).to.equal(200));
+  test('access token', () => expect(res.body.access_token).to.be.a('string'));
+}

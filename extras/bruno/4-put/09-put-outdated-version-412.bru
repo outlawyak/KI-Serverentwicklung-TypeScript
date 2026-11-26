@@ -1,0 +1,36 @@
+meta {
+  name: PUT outdated version 412
+  type: http
+  seq: 9
+}
+
+put {
+  url: {{newGameUrl}}
+  body: json
+  auth: bearer
+}
+
+headers {
+  Content-Type: application/json
+  If-Match: "0"
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}
+
+body:json {
+  {
+    "title": "Bruno Test Game",
+    "genre": "Puzzle Platformer",
+    "releaseDate": "2024-05-01"
+  }
+}
+
+tests {
+  test('status 412', () => expect(res.status).to.equal(412));
+  test('Problem Details', () => {
+    expect(res.headers['content-type']).to.include('application/problem+json');
+    expect(res.body.status).to.equal(412);
+  });
+}

@@ -1,0 +1,23 @@
+meta {
+  name: GET wrong Accept 406
+  type: http
+  seq: 8
+}
+
+get {
+  url: {{baseUrl}}/rest/games/1000
+  body: none
+  auth: none
+}
+
+headers {
+  Accept: text/html
+}
+
+tests {
+  test('status 406', () => expect(res.status).to.equal(406));
+  test('Problem Details', () => {
+    expect(res.headers['content-type']).to.include('application/problem+json');
+    expect(res.body.status).to.equal(406);
+  });
+}

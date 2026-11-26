@@ -1,0 +1,35 @@
+meta {
+  name: PUT invalid data 422
+  type: http
+  seq: 6
+}
+
+put {
+  url: {{newGameUrl}}
+  body: json
+  auth: bearer
+}
+
+headers {
+  Content-Type: application/json
+  If-Match: "0"
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}
+
+body:json {
+  {
+    "title": "Bruno Test Game",
+    "genre": "Puzzle"
+  }
+}
+
+tests {
+  test('status 422', () => expect(res.status).to.equal(422));
+  test('Problem Details', () => {
+    expect(res.headers['content-type']).to.include('application/problem+json');
+    expect(res.body.status).to.equal(422);
+  });
+}

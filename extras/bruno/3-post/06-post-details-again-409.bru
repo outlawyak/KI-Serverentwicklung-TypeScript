@@ -1,0 +1,29 @@
+meta {
+  name: POST details again 409
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{newGameUrl}}/details
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "developer": "Second Studio"
+  }
+}
+
+tests {
+  test('status 409', () => expect(res.status).to.equal(409));
+  test('Problem Details', () => {
+    expect(res.headers['content-type']).to.include('application/problem+json');
+    expect(res.body.status).to.equal(409);
+  });
+}

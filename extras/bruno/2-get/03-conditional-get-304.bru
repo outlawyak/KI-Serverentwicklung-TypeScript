@@ -1,0 +1,21 @@
+meta {
+  name: Conditional GET 304
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/rest/games/1000
+  body: none
+  auth: none
+}
+
+headers {
+  If-None-Match: {{etag1000}}
+}
+
+tests {
+  test('status 304', () => expect(res.status).to.equal(304));
+  test('no body', () => expect(res.body ?? '').to.equal(''));
+  test('ETag repeated', () => expect(res.headers.etag).to.equal(bru.getVar('etag1000')));
+}

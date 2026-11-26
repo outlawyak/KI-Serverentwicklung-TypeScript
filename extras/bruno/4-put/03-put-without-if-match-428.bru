@@ -1,0 +1,35 @@
+meta {
+  name: PUT without If-Match 428
+  type: http
+  seq: 3
+}
+
+put {
+  url: {{newGameUrl}}
+  body: json
+  auth: bearer
+}
+
+headers {
+  Content-Type: application/json
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}
+
+body:json {
+  {
+    "title": "Bruno Test Game",
+    "genre": "Puzzle Platformer",
+    "releaseDate": "2024-05-01"
+  }
+}
+
+tests {
+  test('status 428', () => expect(res.status).to.equal(428));
+  test('Problem Details', () => {
+    expect(res.headers['content-type']).to.include('application/problem+json');
+    expect(res.body.status).to.equal(428);
+  });
+}

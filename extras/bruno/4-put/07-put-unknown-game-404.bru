@@ -1,0 +1,36 @@
+meta {
+  name: PUT unknown game 404
+  type: http
+  seq: 7
+}
+
+put {
+  url: {{baseUrl}}/rest/games/9999
+  body: json
+  auth: bearer
+}
+
+headers {
+  Content-Type: application/json
+  If-Match: "0"
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}
+
+body:json {
+  {
+    "title": "Bruno Test Game",
+    "genre": "Puzzle Platformer",
+    "releaseDate": "2024-05-01"
+  }
+}
+
+tests {
+  test('status 404', () => expect(res.status).to.equal(404));
+  test('Problem Details', () => {
+    expect(res.headers['content-type']).to.include('application/problem+json');
+    expect(res.body.status).to.equal(404);
+  });
+}

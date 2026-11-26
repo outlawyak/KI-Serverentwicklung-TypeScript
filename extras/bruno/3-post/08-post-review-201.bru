@@ -1,0 +1,27 @@
+meta {
+  name: POST review 201
+  type: http
+  seq: 8
+}
+
+post {
+  url: {{newGameUrl}}/reviews
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "rating": 4,
+    "comment": "Reviewed by Bruno"
+  }
+}
+
+tests {
+  test('status 201', () => expect(res.status).to.equal(201));
+  test('Location', () => expect(res.headers.location).to.equal(bru.getVar('newGameUrl')));
+}

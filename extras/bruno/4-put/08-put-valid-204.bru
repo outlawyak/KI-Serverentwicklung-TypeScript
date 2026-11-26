@@ -1,0 +1,33 @@
+meta {
+  name: PUT valid 204
+  type: http
+  seq: 8
+}
+
+put {
+  url: {{newGameUrl}}
+  body: json
+  auth: bearer
+}
+
+headers {
+  Content-Type: application/json
+  If-Match: "0"
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}
+
+body:json {
+  {
+    "title": "Bruno Test Game",
+    "genre": "Puzzle Platformer",
+    "releaseDate": "2024-05-01"
+  }
+}
+
+tests {
+  test('status 204', () => expect(res.status).to.equal(204));
+  test('new ETag', () => expect(res.headers.etag).to.equal('"1"'));
+}

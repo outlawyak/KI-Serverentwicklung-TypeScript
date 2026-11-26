@@ -271,7 +271,7 @@ the agent starts on the app server.
 
 ## Phase 6: Acceptance [You + Agent]
 
-- [ ] **T6.1 Bruno collection** [Agent]
+- [x] **T6.1 Bruno collection** [Agent]
   Collection in the repo (`extras/bruno/`) with a `local` environment: fetch
   a token (password grant), GET with path and query parameters, conditional
   GET (304), POST for game, details and review (including invalid data),

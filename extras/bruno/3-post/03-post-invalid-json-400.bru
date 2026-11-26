@@ -1,0 +1,33 @@
+meta {
+  name: POST invalid JSON 400
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/rest/games
+  body: text
+  auth: none
+}
+
+headers {
+  Content-Type: text/plain
+}
+
+body:text {
+  {"title": "x",
+}
+
+tests {
+  test('status 400', () => expect(res.status).to.equal(400));
+  test('Problem Details', () => {
+    expect(res.headers['content-type']).to.include('application/problem+json');
+    expect(res.body.status).to.equal(400);
+  });
+}
+
+docs {
+  Bruno sends a body that is not valid JSON as a JSON string when the Content-Type is
+  application/json, so the broken body would arrive as valid JSON. With text/plain it is sent
+  unchanged; the server parses the body as JSON regardless of the Content-Type.
+}

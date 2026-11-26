@@ -173,6 +173,31 @@ curl --http2 -i --cacert "$(mkcert -CAROOT)/rootCA.pem" -X PUT -H "Authorization
 In Windows PowerShell 5.1 the inner quotes get lost when passed to `curl.exe`; write `'If-None-Match: \"0\"'` there,
 or use PowerShell 7.3 or newer.
 
+## Acceptance with Bruno
+
+The collection [extras/bruno/](extras/bruno/) covers every endpoint: GET `200`/`304`/`404`/`406`, POST
+`201`/`400`/`404`/`409`/`422`, PUT `204`/`401`/`403`/`404`/`412`/`422`/`428`, each with tests for status, `Location`,
+`ETag` and `Content-Type: application/problem+json`. It creates its own game, so it can run any number of times
+without resetting the database.
+
+1. Write the secrets for the token requests to `extras/bruno/.env` (gitignored):
+
+   ```shell
+   pnpm run setup:bruno
+   ```
+
+2. Start the server (`pnpm run dev`) and open the folder `extras/bruno` in Bruno (4.x), environment `local`.
+3. Let Bruno trust the mkcert CA: in the preferences under SSL/TLS, choose the file `rootCA.pem` from the folder
+   that `mkcert -CAROOT` prints as custom CA certificate.
+4. Run the whole collection (Runner); the folders run in order: 1 Auth, 2 GET, 3 POST, 4 PUT.
+
+Without the app, the Bruno CLI runs the same collection (no project dependency):
+
+```shell
+cd extras/bruno
+pnpm dlx @usebruno/cli@4.3.0 run --env local --cacert "$(mkcert -CAROOT)/rootCA.pem"
+```
+
 ## Scripts
 
 | Script | Purpose |
@@ -185,6 +210,7 @@ or use PowerShell 7.3 or newer.
 | `pnpm run fmt:check` | check the formatting |
 | `pnpm run db:studio` | Drizzle Studio |
 | `pnpm run setup:env` | create `.env` with random secrets |
+| `pnpm run setup:bruno` | write the secrets for the Bruno collection to `extras/bruno/.env` |
 | `pnpm --silent run token <user>` | print a Keycloak access token for `game-admin` or `game-user` |
 
 Before every commit, `pnpm run lint`, `pnpm run fmt:check` and `pnpm run tsc` must pass.
@@ -205,6 +231,7 @@ SQL first, then Drizzle code:
 compose.yaml                 PostgreSQL and Keycloak
 db/schema.sql                tables and test data
 extras/keycloak/             realm import
+extras/bruno/                Bruno collection for the acceptance
 src/main.mts                 server start (HTTP/2, TLS 1.3), shutdown
 src/app.mts                  Hono app: middleware and routes
 src/paths.mts                URL paths (REST base /rest)

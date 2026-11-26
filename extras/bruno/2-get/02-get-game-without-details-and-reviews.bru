@@ -1,0 +1,19 @@
+meta {
+  name: GET game without details and reviews
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/rest/games/1003
+  body: none
+  auth: none
+}
+
+tests {
+  test('status 200', () => expect(res.status).to.equal(200));
+  test('found despite missing children', () => {
+    expect(res.body.details).to.equal(null);
+    expect(res.body.reviews).to.eql([]);
+  });
+}

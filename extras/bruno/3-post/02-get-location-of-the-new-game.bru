@@ -1,0 +1,20 @@
+meta {
+  name: GET Location of the new game
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{newGameUrl}}
+  body: none
+  auth: none
+}
+
+tests {
+  test('status 200', () => expect(res.status).to.equal(200));
+  test('generated ID and version 0', () => {
+    expect(res.body.id).to.be.at.least(1000);
+    expect(res.body.version).to.equal(0);
+  });
+  test('timestamps set by the DB', () => expect(res.body.createdAt).to.equal(res.body.updatedAt));
+}

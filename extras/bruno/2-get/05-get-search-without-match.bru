@@ -1,0 +1,16 @@
+meta {
+  name: GET search without match
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{baseUrl}}/rest/games?title=does-not-exist
+  body: none
+  auth: none
+}
+
+tests {
+  test('status 200', () => expect(res.status).to.equal(200));
+  test('empty array', () => expect(res.body).to.eql([]));
+}

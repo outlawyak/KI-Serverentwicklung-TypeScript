@@ -1,0 +1,19 @@
+meta {
+  name: GET invalid ID 1abc 404
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{baseUrl}}/rest/games/1abc
+  body: none
+  auth: none
+}
+
+tests {
+  test('status 404', () => expect(res.status).to.equal(404));
+  test('Problem Details', () => {
+    expect(res.headers['content-type']).to.include('application/problem+json');
+    expect(res.body.status).to.equal(404);
+  });
+}

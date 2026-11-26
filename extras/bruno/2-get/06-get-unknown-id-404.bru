@@ -1,0 +1,19 @@
+meta {
+  name: GET unknown ID 404
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{baseUrl}}/rest/games/9999
+  body: none
+  auth: none
+}
+
+tests {
+  test('status 404', () => expect(res.status).to.equal(404));
+  test('Problem Details', () => {
+    expect(res.headers['content-type']).to.include('application/problem+json');
+    expect(res.body.status).to.equal(404);
+  });
+}

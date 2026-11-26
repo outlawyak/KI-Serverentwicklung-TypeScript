@@ -12,6 +12,7 @@
         "fmt:check": "oxfmt --check",
         "tsc": "tsc --noEmit",
         "db:studio": "drizzle-kit studio --config drizzle.config.mts",
+        "setup:bruno": "node --env-file-if-exists=.env scripts/setup-bruno.mts",
         "setup:env": "node scripts/setup-env.mts",
         "token": "node --env-file-if-exists=.env scripts/token.mts"
     },

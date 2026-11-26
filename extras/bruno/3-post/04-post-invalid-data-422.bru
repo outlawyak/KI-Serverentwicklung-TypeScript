@@ -1,0 +1,31 @@
+meta {
+  name: POST invalid data 422
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/rest/games
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "title": "",
+    "price": 9.99
+  }
+}
+
+tests {
+  test('status 422', () => expect(res.status).to.equal(422));
+  test('Problem Details', () => {
+    expect(res.headers['content-type']).to.include('application/problem+json');
+    expect(res.body.status).to.equal(422);
+  });
+  test('invalid fields listed', () => expect(res.body.errors.map((error) => error.path)).to.include.members(['title', 'genre']));
+}

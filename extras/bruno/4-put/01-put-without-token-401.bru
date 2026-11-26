@@ -1,0 +1,33 @@
+meta {
+  name: PUT without token 401
+  type: http
+  seq: 1
+}
+
+put {
+  url: {{newGameUrl}}
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+  If-Match: "0"
+}
+
+body:json {
+  {
+    "title": "Bruno Test Game",
+    "genre": "Puzzle Platformer",
+    "releaseDate": "2024-05-01"
+  }
+}
+
+tests {
+  test('status 401', () => expect(res.status).to.equal(401));
+  test('Problem Details', () => {
+    expect(res.headers['content-type']).to.include('application/problem+json');
+    expect(res.body.status).to.equal(401);
+  });
+  test('WWW-Authenticate', () => expect(res.headers['www-authenticate']).to.include('Bearer'));
+}

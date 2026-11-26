@@ -1,0 +1,29 @@
+meta {
+  name: POST review for unknown game 404
+  type: http
+  seq: 10
+}
+
+post {
+  url: {{baseUrl}}/rest/games/9999/reviews
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "rating": 3
+  }
+}
+
+tests {
+  test('status 404', () => expect(res.status).to.equal(404));
+  test('Problem Details', () => {
+    expect(res.headers['content-type']).to.include('application/problem+json');
+    expect(res.body.status).to.equal(404);
+  });
+}
