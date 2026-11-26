@@ -97,7 +97,37 @@ pnpm --silent run token game-user
 Keycloak has no volume: `docker compose up -d --force-recreate keycloak` resets it to the state in the repo
 (e.g. after locking yourself out of the admin console). Admin accounts created in the console are lost then.
 
-### 4. Look at the data
+### 4. Create the TLS certificate
+
+The server speaks HTTP/2 over TLS 1.3 and needs a certificate for `localhost`. mkcert creates it, signed by a
+local CA of your own:
+
+```shell
+mkdir certs
+mkcert -cert-file certs/cert.pem -key-file certs/key.pem localhost 127.0.0.1 ::1
+```
+
+`certs/` is gitignored; the paths are set in `.env` (`TLS_KEY_PATH`, `TLS_CERT_PATH`). The local CA is **not**
+added to your system trust store (no `mkcert -install`), so clients get its file instead: `mkcert -CAROOT` prints
+the folder, the CA is `rootCA.pem` in it.
+
+### 5. Start the server
+
+```shell
+pnpm run dev
+```
+
+`dev` restarts on file changes, `start` does not. The server listens on <https://localhost:3000> (HTTP/2, and
+HTTP/1.1 for clients without HTTP/2) and stops cleanly with Ctrl+C. Check it:
+
+```shell
+curl --http2 -i --cacert "$(mkcert -CAROOT)/rootCA.pem" https://localhost:3000/health
+```
+
+Expected: `HTTP/2 200` and `{"status":"UP"}`. On Windows, write `curl.exe` instead of `curl` (in PowerShell,
+`curl` is an alias for `Invoke-WebRequest`); `curl.exe --version` must list `HTTP2` under Features.
+
+### 6. Look at the data
 
 - **Drizzle Studio:** `pnpm run db:studio`, then open <https://local.drizzle.studio>
 - **DB browser** (DBeaver, pgAdmin, ...): host `localhost`, port `5433`, database and user `games`, password
@@ -107,8 +137,8 @@ Keycloak has no volume: `docker compose up -d --force-recreate keycloak` resets 
 
 | Script | Purpose |
 | --- | --- |
-| `pnpm run dev` | start the server with `--watch` (from T2.1) |
-| `pnpm run start` | start the server (from T2.1) |
+| `pnpm run dev` | start the server, restart on file changes |
+| `pnpm run start` | start the server |
 | `pnpm run tsc` | type check (`tsc --noEmit`) |
 | `pnpm run lint` | oxlint, every finding is an error |
 | `pnpm run fmt` | format with oxfmt |
@@ -134,9 +164,14 @@ SQL first, then Drizzle code:
 compose.yaml                 PostgreSQL and Keycloak
 db/schema.sql                tables and test data
 extras/keycloak/             realm import
+src/main.mts                 server start (HTTP/2, TLS 1.3), shutdown
+src/app.mts                  Hono app: middleware and routes
+src/paths.mts                URL paths (REST base /rest)
+src/logger.mts               central logger (pino)
 src/config/config.mts        validated configuration from .env
 src/db/                      Drizzle schema and relations
 scripts/                     setup helpers (.env, token), same on macOS and Windows
+certs/                       local TLS certificate (not committed)
 drizzle.config.mts           drizzle-kit (pull, Studio)
 .oxlintrc.json, .oxfmtrc.json  linter and formatter
 docs/                        analysis of the lecturer's examples, recipe, review checklist

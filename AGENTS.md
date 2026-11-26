@@ -128,7 +128,10 @@ Checked with oxlint 1.95.0 and a deliberate test violation:
   `import/group-exports`, `import/exports-last`, `eslint/no-undefined`,
   `eslint/one-var`, `unicorn/no-array-for-each`, `oxc/no-async-await`,
   `import/no-nodejs-modules`, `node/no-top-level-await`,
-  `import/no-relative-parent-imports` (the folder layout needs `../`).
+  `import/no-relative-parent-imports` (the folder layout needs `../`),
+  `import/prefer-default-export` (named exports), `oxc/no-rest-spread-properties`
+  (object spread is standard in Node 26), `node/callback-return` (Hono
+  middleware continues after `await next()`).
   Also off: `eslint/sort-keys` (not required, would reorder generated
   Drizzle code)
 - Adjusted: `import/consistent-type-specifier-style` set to `prefer-inline`

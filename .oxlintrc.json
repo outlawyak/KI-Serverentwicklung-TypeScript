@@ -56,7 +56,10 @@
         "unicorn/no-array-for-each": "off", // `forEach` instead of `for` loops
         "oxc/no-async-await": "off", // `async`/`await` is required
         "import/no-nodejs-modules": "off", // `node:http2`, `node:process` etc.
+        "import/prefer-default-export": "off", // named exports are required
         "node/no-top-level-await": "off", // top-level `await` is required
+        "oxc/no-rest-spread-properties": "off", // object spread is standard in Node 26
+        "node/callback-return": "off", // Hono middleware continues after `await next()`
         "import/no-relative-parent-imports": "off", // layout needs `../service/`, `../../db/`
         // Off: not required by AGENTS.md; would reorder every object, generated Drizzle code included
         "eslint/sort-keys": "off"

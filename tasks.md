@@ -151,7 +151,7 @@ the agent starts on the app server.
 
 ## Phase 2: Server Skeleton [Agent]
 
-- [ ] **T2.1 Hono over HTTP/2**
+- [x] **T2.1 Hono over HTTP/2**
   Hono app in `src/app.mts`, server start in `src/main.mts` with
   `@hono/node-server` and `createSecureServer` from `node:http2`
   (TLS 1.3, `allowHTTP1: true`). Paths defined centrally in `src/paths.mts`,
