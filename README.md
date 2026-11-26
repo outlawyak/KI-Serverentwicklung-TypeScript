@@ -135,6 +135,18 @@ Expected: `HTTP/2 200` and `{"status":"UP","database":"UP"}`. If PostgreSQL is n
 - **DB browser** (DBeaver, pgAdmin, ...): host `localhost`, port `5433`, database and user `games`, password
   `POSTGRES_PASSWORD` from `.env`
 
+## Endpoints
+
+Base URL `https://localhost:3000`. Every response is JSON; every error is Problem Details (RFC 9457) with
+`Content-Type: application/problem+json`.
+
+| Method | Path | Result |
+| --- | --- | --- |
+| `GET` | `/health` | `200` with the database status, `503` if the database is not reachable |
+| `GET` | `/rest/games/{id}` | `200` with the game, its details and reviews; `404` if it does not exist |
+
+IDs are 1 to 10 digits without a leading zero: `/rest/games/1abc` or `/rest/games/01000` return `404`.
+
 ## Scripts
 
 | Script | Purpose |
@@ -173,7 +185,9 @@ src/paths.mts                URL paths (REST base /rest)
 src/logger.mts               central logger (pino)
 src/config/config.mts        validated configuration from .env
 src/db/                      Drizzle schema, relations and client (connection pool)
+src/game/router/             REST routes for games
 src/game/service/            reading and writing games (no HTTP), DTO, errors
+src/game/validation/         Zod schemas for the request bodies
 scripts/                     setup helpers (.env, token), same on macOS and Windows
 certs/                       local TLS certificate (not committed)
 drizzle.config.mts           drizzle-kit (pull, Studio)

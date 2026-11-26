@@ -204,7 +204,7 @@ the agent starts on the app server.
   including the invalid fields.
   Done when: the schemas are used in the routes.
 
-- [ ] **T4.2 GET with path parameter**
+- [x] **T4.2 GET with path parameter**
   `src/game/router/game-router.mts`: `GET /rest/games/:id` returns a game
   including details and reviews, 404 as Problem Details if it does not
   exist. Check the ID with an anchored regex: `/rest/games/1abc` → 404.

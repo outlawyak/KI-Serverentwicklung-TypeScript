@@ -7,11 +7,12 @@
  * @packageDocumentation
  */
 
+import { gamesPath, healthPath } from './paths.mts';
 import { handleError, handleNotFound } from './error-handler.mts';
 import { Hono } from 'hono';
 import { HttpStatus } from './http-status.mts';
+import { gameRouter } from './game/router/game-router.mts';
 import { getLogger } from './logger.mts';
-import { healthPath } from './paths.mts';
 import { isDatabaseReachable } from './db/client.mts';
 import { performance } from 'node:perf_hooks';
 import { problemResponse } from './problem-details.mts';
@@ -73,6 +74,8 @@ app.get(healthPath, async (c) => {
     }
     return c.json({ status: 'UP', database: 'UP' });
 });
+
+app.route(gamesPath, gameRouter);
 
 app.notFound(handleNotFound);
 app.onError(handleError);
