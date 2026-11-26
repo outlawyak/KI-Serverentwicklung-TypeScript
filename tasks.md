@@ -129,7 +129,7 @@ the agent starts on the app server.
   `.oxfmtrc.json` (indentation, quotes, line length).
   Done when: `pnpm run fmt:check` passes without findings.
 
-- [ ] **T1.4 Environment variables**
+- [x] **T1.4 Environment variables**
   `.env.example` with all variables (DB, port, TLS paths, Keycloak issuer
   and JWKS URL, client ID). Validate the configuration in
   `src/config/config.mts` with Zod on startup and export it typed; no
