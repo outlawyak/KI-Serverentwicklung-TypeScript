@@ -252,7 +252,7 @@ the agent starts on the app server.
 
 ## Phase 5: Security [Agent]
 
-- [ ] **T5.1 JWT verification with Keycloak**
+- [x] **T5.1 JWT verification with Keycloak**
   `src/security/roles-required.mts`: middleware that verifies the bearer
   token with `jose` against the Keycloak JWKS: issuer, audience, RS256,
   expiry. Never log tokens or secrets. Missing or invalid token → 401 as

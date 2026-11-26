@@ -184,6 +184,9 @@ importers:
       hono:
         specifier: ^4.13.22
         version: 4.13.22
+      jose:
+        specifier: ^6.2.18
+        version: 6.2.18
       pg:
         specifier: ^8.23.1
         version: 8.23.1
@@ -1221,6 +1224,9 @@ packages:
     resolution: {integrity: sha512-wncKd5/40Pj8grx0RZ2fgNIicFEmVFwIHT5UFLTnphR8I6AQWFf9c2JoM6ZJ9g8y4pMzg3sNlCVNe0m2Yclg0Q==}
     engines: {node: '>=16.9.0'}
 
+  jose@6.2.18:
+    resolution: {integrity: sha512-doV4thUwgkrycJH4yLeqwTGIIZphHl+pk7CPReuMIhYhncmgzdko85MaCG4YQFTxqMFr1/oEH32tZuKKovcDEg==}
+
   joycon@3.1.1:
     resolution: {integrity: sha512-34wB/Y7MW7bzjKRjUKTa46I2Z7eV62Rkhva+KkopW7Qvv/OSWBqvkSY7vusOPrNuZcUG3tApvdVgNB8POj3SPw==}
     engines: {node: '>=10'}
@@ -1955,6 +1961,8 @@ snapshots:
   help-me@5.0.0: {}
 
   hono@4.13.22: {}
+
+  jose@6.2.18: {}
 
   joycon@3.1.1: {}
 
