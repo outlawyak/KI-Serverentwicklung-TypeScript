@@ -2,11 +2,11 @@
 
 ## Required by the Checklist
 
-- [ ] Team registered; repository, IDE and AI agents stated
-- [ ] Node 26.13.1 or 27 alpha; pnpm 12.21.0 or Bun 1.4.4
-- [ ] PostgreSQL 18/19 and Keycloak run as containers
-- [ ] Keycloak: 1 realm, 1 client, at least 1 user and 1 role
-- [ ] `schema.mts` and `relations.mts` derived from Drizzle; many small commits
+- [x] Team registered; repository, IDE and AI agents stated
+- [x] Node 26.13.1 or 27 alpha; pnpm 12.21.0 or Bun 1.4.4
+- [x] PostgreSQL 18/19 and Keycloak run as containers
+- [x] Keycloak: 1 realm, 1 client, at least 1 user and 1 role
+- [x] `schema.mts` and `relations.mts` derived from Drizzle; many small commits
 - [ ] Response demonstrably over HTTP/2
 - [ ] GET with path or query parameter; `If-None-Match` returns 304
 - [ ] POST: Zod, 201, `Location` can be fetched
@@ -16,7 +16,7 @@
 - [ ] At least one method protected by a role; 401 and 403 checked
 - [ ] Problem Details also for 404, 406 and 500, with `status`
 - [ ] Demonstrable requests **or** integration tests over HTTP/2
-- [ ] DB browser or Drizzle Studio ready
+- [x] DB browser or Drizzle Studio ready
 - [ ] oxlint and oxfmt without errors
 - [ ] Nothing crossed out added without being asked
 
