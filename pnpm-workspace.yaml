@@ -1,0 +1,4 @@
+# Build scripts not needed: esbuild ships its binary as an optional dependency (AGENTS.md, T0.5)
+# https://pnpm.io/settings#allowbuilds
+allowBuilds:
+  esbuild: false

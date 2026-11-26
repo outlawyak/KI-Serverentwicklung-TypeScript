@@ -90,7 +90,7 @@ the agent starts on the app server.
   Done when: a token for the user can be fetched via password grant and the
   role `admin` is in `resource_access.games-client.roles`.
 
-- [ ] **T0.10 Generate Drizzle code**
+- [x] **T0.10 Generate Drizzle code**
   `pnpm init`, add `drizzle-orm`, `pg` and `drizzle-kit`, create
   `drizzle.config.mts` and run `pnpm drizzle-kit pull`.
   Put the generated files at `src/db/schema.mts` and `src/db/relations.mts`
