@@ -37,8 +37,8 @@ export const gameTable = pgTable(
         title: text().notNull(),
         genre: text().notNull(),
         releaseDate: date('release_date'),
-        createdAt: timestamp('created_at', { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
-        updatedAt: timestamp('updated_at', { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
+        createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).defaultNow().notNull(),
+        updatedAt: timestamp('updated_at', { withTimezone: true, mode: 'date' }).defaultNow().notNull(),
     },
     () => [
         check('game_version_check', sql`version >= 0`),
@@ -89,7 +89,7 @@ export const reviewTable = pgTable(
         gameId: integer('game_id').notNull(),
         rating: smallint().notNull(),
         comment: text(),
-        createdAt: timestamp('created_at', { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
+        createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).defaultNow().notNull(),
     },
     (table) => [
         index('review_game_id_idx').using('btree', table.gameId.asc().nullsLast().op('int4_ops')),

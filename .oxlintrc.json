@@ -61,6 +61,8 @@
         "node/no-top-level-await": "off", // top-level `await` is required
         "oxc/no-rest-spread-properties": "off", // object spread is standard in Node 26
         "node/callback-return": "off", // Hono middleware continues after `await next()`
+        "unicorn/no-null": "off", // SQL NULL arrives as `null` (nullable columns, leftJoin)
+        "oxc/no-optional-chaining": "off", // `?.` is standard since ES2020
         "import/no-relative-parent-imports": "off", // layout needs `../service/`, `../../db/`
         // Off: not required by AGENTS.md; would reorder every object, generated Drizzle code included
         "eslint/sort-keys": "off"

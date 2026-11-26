@@ -134,7 +134,8 @@ Checked with oxlint 1.95.0 and a deliberate test violation:
   `import/no-relative-parent-imports` (the folder layout needs `../`),
   `import/prefer-default-export` (named exports), `oxc/no-rest-spread-properties`
   (object spread is standard in Node 26), `node/callback-return` (Hono
-  middleware continues after `await next()`).
+  middleware continues after `await next()`), `unicorn/no-null` (SQL NULL
+  arrives as `null`), `oxc/no-optional-chaining` (`?.` is standard).
   Also off: `eslint/sort-keys` (not required, would reorder generated
   Drizzle code)
 - Adjusted: `import/consistent-type-specifier-style` off, so type-only imports
@@ -178,6 +179,11 @@ examples: **SQL first**, then `drizzle-kit pull`, then manual rework (see
 - Move definitions before their use, suffixes `...Schema`/`...Table`
 - `.defaultNow()` instead of ``.default(sql`now()`)``, named instead of
   namespace imports
+- `mode: 'date'` instead of `mode: 'string'` for the `timestamp` columns, so
+  the API returns ISO 8601 (developer's decision in T3.2); `date` columns
+  such as `release_date` stay strings (`2017-03-03`)
+- `relations.mts`: `one(gameDetailsTable)` for the 1:1 relationship
+  (drizzle-kit generates `many`), numeric separators (`2_147_483_647`)
 On schema changes, update the SQL, regenerate and repeat the same rework.
 
 SQL conventions: `text` instead of `varchar`,

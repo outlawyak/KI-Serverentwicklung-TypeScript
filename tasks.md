@@ -181,7 +181,7 @@ the agent starts on the app server.
   from the generated files. `/health` also checks the DB connection.
   Done when: `/health` reports a reachable database.
 
-- [ ] **T3.2 Data access functions**
+- [x] **T3.2 Data access functions**
   Split into `src/game/service/game-service.mts` (reads, no transaction)
   and `game-write-service.mts` (writes, in one transaction), without any
   HTTP reference. Query builder with `leftJoin` for details (1:1) and

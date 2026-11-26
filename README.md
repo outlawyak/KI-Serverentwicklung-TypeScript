@@ -158,7 +158,8 @@ SQL first, then Drizzle code:
 1. Change [db/schema.sql](db/schema.sql) and reload it (see above)
 2. `pnpm exec drizzle-kit pull --config drizzle.config.mts` writes the raw code to `drizzle/` (not committed)
 3. Rework it into [src/db/schema.mts](src/db/schema.mts) and [src/db/relations.mts](src/db/relations.mts) as
-   described in [docs/recipe-new-entity.md](docs/recipe-new-entity.md) §2
+   described in [docs/recipe-new-entity.md](docs/recipe-new-entity.md) §2, plus the project's own steps in
+   [AGENTS.md](AGENTS.md) ("Data Model"), e.g. `mode: 'date'` for timestamps
 
 ## Project Layout
 
@@ -172,6 +173,7 @@ src/paths.mts                URL paths (REST base /rest)
 src/logger.mts               central logger (pino)
 src/config/config.mts        validated configuration from .env
 src/db/                      Drizzle schema, relations and client (connection pool)
+src/game/service/            reading and writing games (no HTTP), DTO, errors
 scripts/                     setup helpers (.env, token), same on macOS and Windows
 certs/                       local TLS certificate (not committed)
 drizzle.config.mts           drizzle-kit (pull, Studio)
