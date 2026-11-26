@@ -9,11 +9,11 @@
  * @packageDocumentation
  */
 
-import { defineConfig } from 'drizzle-kit';
 import { env, loadEnvFile } from 'node:process';
+import { defineConfig } from 'drizzle-kit';
 
-// Tooling only, outside the app: the server reads its configuration in
-// src/config/ (T1.4). https://nodejs.org/api/process.html#processloadenvfilepath
+// Tooling only, outside the app: the server reads its configuration in src/config/ (T1.4)
+// https://nodejs.org/api/process.html#processloadenvfilepath
 loadEnvFile('.env');
 
 const { POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB, POSTGRES_PORT } = env;
@@ -21,7 +21,7 @@ if (POSTGRES_USER === undefined || POSTGRES_PASSWORD === undefined || POSTGRES_D
     throw new Error('POSTGRES_USER, POSTGRES_PASSWORD and POSTGRES_DB must be set in .env');
 }
 
-// drizzle-kit only reads the default export
+// The default export is the only one drizzle-kit reads
 // oxlint-disable-next-line import/no-default-export
 export default defineConfig({
     dialect: 'postgresql',

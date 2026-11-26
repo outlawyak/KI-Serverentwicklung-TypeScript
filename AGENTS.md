@@ -109,8 +109,29 @@ As in the lecturer's examples (E = enforced by configuration):
 - Exceptions only locally and naming the exact rule
   (`// oxlint-disable-next-line <rule>`), never globally
 - Open, to be clarified with the lecturer, do not change on your own:
-  whether `oxlint-tsgolint` is needed for type-aware rules, and whether the
-  `plugins` list replaces the default plugins (see `docs/style-analysis.md` §7)
+  whether `oxlint-tsgolint` is needed for type-aware rules
+  (see `docs/style-analysis.md` §7)
+
+### oxlint Findings (T1.2)
+Checked with oxlint 1.95.0 and a deliberate test violation:
+- **The `plugins` list replaces the default plugins** (confirmed by the oxlint
+  config schema and a run). With only the lecturer's `["import", "node",
+  "promise"]`, no `typescript/*`, `unicorn/*` or `oxc/*` rule fires: `any`,
+  `interface` and `@ts-ignore` went unreported. Decision (developer): list
+  all plugins in `.oxlintrc.json`. Tell the lecturer.
+- With all plugins active, some rules contradict this file and are turned off
+  in `.oxlintrc.json`, each with its reason: `import/no-named-export`,
+  `import/group-exports`, `import/exports-last`, `eslint/no-undefined`,
+  `eslint/one-var`, `unicorn/no-array-for-each`, `oxc/no-async-await`,
+  `import/no-nodejs-modules`. Also off: `eslint/sort-keys` (not required,
+  would reorder generated Drizzle code)
+- Adjusted: `import/consistent-type-specifier-style` set to `prefer-inline`
+  (inline type imports); `id-length` allows `c` (Hono context)
+- **Not supported:** "no `for` loops" (oxlint has no `no-restricted-syntax`),
+  so it is a review item, not enforced
+- Added beyond the list above, because this file requires it:
+  `node/no-process-env` (off only in `src/config/` and `drizzle.config.mts`)
+  and `no-console`
 
 ## Architecture
 - One folder per entity with separate modules: `router/`, `service/`,

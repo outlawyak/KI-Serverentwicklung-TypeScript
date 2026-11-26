@@ -113,7 +113,7 @@ the agent starts on the app server.
   Commit the lockfile.
   Done when: `pnpm install --frozen-lockfile` and `pnpm run tsc` run without errors.
 
-- [ ] **T1.2 Configure oxlint**
+- [x] **T1.2 Configure oxlint**
   `.oxlintrc.json` modeled on the lecturer's config: all active categories
   set to `error`, warnings and unused disables fail the run, limits of
   60 lines / 25 statements per function, 4 nested callbacks.

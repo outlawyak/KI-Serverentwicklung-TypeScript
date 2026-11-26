@@ -1,0 +1,71 @@
+{
+    // https://oxc.rs/docs/guide/usage/linter/config-file-reference.html
+    "$schema": "./node_modules/oxlint/configuration_schema.json",
+    // Setting `plugins` replaces the default set, so the defaults (eslint, typescript,
+    // unicorn, oxc) are listed too; otherwise their rules would be silently off (AGENTS.md)
+    "plugins": ["eslint", "typescript", "unicorn", "oxc", "import", "node", "promise"],
+    "categories": {
+        "correctness": "error",
+        "suspicious": "error",
+        "pedantic": "error",
+        "perf": "error",
+        "style": "error",
+        "restriction": "error"
+    },
+    "options": {
+        "denyWarnings": true,
+        "reportUnusedDisableDirectives": "error"
+    },
+    "env": {
+        "node": true,
+        "es2024": true
+    },
+    "ignorePatterns": ["drizzle/**"],
+    "rules": {
+        // Limits from the lecturer's config
+        "max-lines-per-function": ["error", { "max": 60 }],
+        "max-statements": ["error", 25],
+        "max-nested-callbacks": ["error", 4],
+
+        // Required by AGENTS.md (explicit, independent of the categories)
+        "import/no-default-export": "error",
+        "import/no-namespace": "error",
+        "func-style": ["error", "expression"],
+        "sort-imports": "error",
+        "no-var": "error",
+        "prefer-const": "error",
+        "prefer-template": "error",
+        "prefer-destructuring": "error",
+        "object-shorthand": "error",
+        "typescript/consistent-type-definitions": ["error", "type"],
+        "typescript/consistent-type-imports": ["error", { "fixStyle": "inline-type-imports" }],
+        "typescript/no-explicit-any": "error",
+        "typescript/ban-ts-comment": "error",
+        "no-console": "error",
+        "node/no-process-env": "error",
+        "import/consistent-type-specifier-style": ["error", "prefer-inline"],
+        // `c` is the usual name of the Hono context
+        "id-length": ["error", { "exceptions": ["c"] }],
+
+        // Off: contradict AGENTS.md (they only fire because all plugins are enabled)
+        "import/no-named-export": "off", // named exports are required
+        "import/group-exports": "off", // one `export const` per declaration
+        "import/exports-last": "off",
+        "eslint/no-undefined": "off", // explicit checks such as `row === undefined`
+        "eslint/one-var": "off", // one declaration per `const`
+        "unicorn/no-array-for-each": "off", // `forEach` instead of `for` loops
+        "oxc/no-async-await": "off", // `async`/`await` is required
+        "import/no-nodejs-modules": "off", // `node:http2`, `node:process` etc.
+        // Off: not required by AGENTS.md; would reorder every object, generated Drizzle code included
+        "eslint/sort-keys": "off"
+    },
+    "overrides": [
+        {
+            // The only places that read environment variables
+            "files": ["src/config/**/*.mts", "drizzle.config.mts"],
+            "rules": {
+                "node/no-process-env": "off"
+            }
+        }
+    ]
+}
