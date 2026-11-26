@@ -144,9 +144,20 @@ Base URL `https://localhost:3000`. Every response is JSON; every error is Proble
 | --- | --- | --- |
 | `GET` | `/health` | `200` with the database status, `503` if the database is not reachable |
 | `GET` | `/rest/games?title=&genre=` | `200` with the matching games (possibly `[]`); both filters are optional, case-insensitive substrings, combined with AND; unknown parameters → `422` |
-| `GET` | `/rest/games/{id}` | `200` with the game, its details and reviews; `404` if it does not exist |
+| `GET` | `/rest/games/{id}` | `200` with the game, its details and reviews and `ETag: "<version>"`; `304` without body if `If-None-Match` matches; `404` if it does not exist |
 
 IDs are 1 to 10 digits without a leading zero: `/rest/games/1abc` or `/rest/games/01000` return `404`.
+
+Conditional GET: the `ETag` is the version of the game. Sent back in `If-None-Match`, the server answers `304 Not
+Modified` as long as the game is unchanged:
+
+```shell
+curl --http2 -i --cacert "$(mkcert -CAROOT)/rootCA.pem" https://localhost:3000/rest/games/1000
+curl --http2 -i --cacert "$(mkcert -CAROOT)/rootCA.pem" -H 'If-None-Match: "0"' https://localhost:3000/rest/games/1000
+```
+
+In Windows PowerShell 5.1 the inner quotes get lost when passed to `curl.exe`; write `'If-None-Match: \"0\"'` there,
+or use PowerShell 7.3 or newer.
 
 ## Scripts
 

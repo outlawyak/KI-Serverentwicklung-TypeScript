@@ -8,7 +8,9 @@
 
 import { type GameFilter, find, findById } from '../service/game-service.mts';
 import { type GameQuery, GameQuerySchema } from '../validation/game-validation.mts';
+import { matchesIfNoneMatch, toETag } from '../../etag.mts';
 import { Hono } from 'hono';
+import { HttpStatus } from '../../http-status.mts';
 import { idParameter } from '../../paths.mts';
 
 // Largest value of the PostgreSQL type `integer`; larger IDs cannot exist
@@ -35,11 +37,17 @@ gameRouter.get('/', async (c) => {
     return c.json(games);
 });
 
+// Conditional GET: ETag from the version; with a matching If-None-Match 304 without body
 gameRouter.get(`/${idParameter}`, async (c) => {
     const id = Number(c.req.param('id'));
     if (id > MAX_ID) {
         return c.notFound();
     }
     const game = await findById(id);
+    const etag = toETag(game.version);
+    c.header('ETag', etag);
+    if (matchesIfNoneMatch(c.req.header('If-None-Match'), etag)) {
+        return c.body(null, HttpStatus.NotModified);
+    }
     return c.json(game);
 });

@@ -215,7 +215,7 @@ the agent starts on the app server.
   case-insensitive for the title). No pagination (crossed out).
   Done when: the filters return the expected results.
 
-- [ ] **T4.4 Conditional GET**
+- [x] **T4.4 Conditional GET**
   `GET /rest/games/:id` sets `ETag: "<version>"`. With a matching
   `If-None-Match`, the server responds with `304 Not Modified` without body.
   Done when: a repeated request with a matching header returns 304.
