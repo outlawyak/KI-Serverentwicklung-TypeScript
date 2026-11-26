@@ -61,7 +61,7 @@ the agent starts on the app server.
   does not collide with the Python project.
   Done when: container runs and accepts connections.
 
-- [ ] **T0.7 Create database schema**
+- [x] **T0.7 Create database schema**
   SQL script `db/schema.sql` (loaded on first start via
   `docker-entrypoint-initdb.d`), tables as described in `AGENTS.md`:
   - Conventions from `AGENTS.md`: `text` instead of `varchar`,

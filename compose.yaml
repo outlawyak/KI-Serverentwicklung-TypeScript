@@ -15,6 +15,8 @@ services:
       # Since PostgreSQL 18 the image keeps its data below /var/lib/postgresql
       # https://hub.docker.com/_/postgres#pgdata
       - postgres-data:/var/lib/postgresql
+      # Runs only when the volume is empty
+      - ./db/schema.sql:/docker-entrypoint-initdb.d/schema.sql:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U \"$$POSTGRES_USER\" -d \"$$POSTGRES_DB\""]
       interval: 5s
