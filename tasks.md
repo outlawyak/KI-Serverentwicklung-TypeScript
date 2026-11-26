@@ -288,7 +288,7 @@ the agent starts on the app server.
   CA in Bruno or disable certificate verification locally).
   Done when: all requests and assertions are green.
 
-- [ ] **T6.3 Visualize data** [You]
+- [x] **T6.3 Visualize data** [You]
   Check the results of the requests in Drizzle Studio or the DB browser
   (new IDs, `version`, `created_at`, `updated_at`).
   Done when: the changes are visible.
