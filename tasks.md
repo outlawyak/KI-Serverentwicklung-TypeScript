@@ -75,7 +75,7 @@ the agent starts on the app server.
   Insert a few test records in every table.
   Done when: schema and test data exist; the script is committed.
 
-- [ ] **T0.8 Connect DB browser**
+- [x] **T0.8 Connect DB browser**
   Connect a DB browser (e.g. DBeaver or pgAdmin) to the container.
   Done when: tables and test data are visible.
 
