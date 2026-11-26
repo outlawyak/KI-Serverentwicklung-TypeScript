@@ -55,7 +55,7 @@ the agent starts on the app server.
   Done when: everything works, or problems are noted in `AGENTS.md`
   (package, error, workaround or decision).
 
-- [ ] **T0.6 Start PostgreSQL container**
+- [x] **T0.6 Start PostgreSQL container**
   PostgreSQL 18 via `compose.yaml` with a persistent volume. Own Compose
   project name (e.g. `ai-server-ts`) and own host port (e.g. 5433), so it
   does not collide with the Python project.
