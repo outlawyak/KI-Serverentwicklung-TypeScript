@@ -17,8 +17,8 @@
 - [x] Problem Details also for 404, 406 and 500, with `status`
 - [x] Demonstrable requests **or** integration tests over HTTP/2
 - [x] DB browser or Drizzle Studio ready
-- [ ] oxlint and oxfmt without errors
-- [ ] Nothing crossed out added without being asked
+- [x] oxlint and oxfmt without errors
+- [x] Nothing crossed out added without being asked
 
 ## Typical Mistakes
 
@@ -29,15 +29,15 @@
 - [x] Optional Zod fields match `NOT NULL` columns
 - [x] An object without 1:N children is found
 - [ ] A duplicate unique value returns 422, also on update
-- [ ] No secrets in Git or logs
+- [x] No secrets in Git or logs
 
 ## Code Quality
 
-- [ ] Named exports, `const`/`let`, template strings, shorthand, destructuring
-- [ ] No HTTP types in the service, no DB access in the router
+- [x] Named exports, `const`/`let`, template strings, shorthand, destructuring
+- [x] No HTTP types in the service, no DB access in the router
 - [ ] No unjustified `any`, `@ts-ignore` or global lint disable
-- [ ] No leftovers from the examples: `buch`, Prisma, Nest, foreign `@author`, debug output
-- [ ] Adopted GPL code is marked
+- [x] No leftovers from the examples: `buch`, Prisma, Nest, foreign `@author`, debug output
+- [x] Adopted GPL code is marked
 - [ ] The team can explain every file
 
 ## Commands (Linux and macOS)

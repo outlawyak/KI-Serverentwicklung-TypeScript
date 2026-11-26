@@ -75,24 +75,24 @@ Not part of the PDF, but derived from the examples `hono` and `drizzle`
 - Lost-update protection is atomic via `id` **and** `version` in the `WHERE`
 
 ## Checklist
-- [ ] Team registered by email (name, repo link, IDE, AI agent)
-- [ ] Node 26.13.1 and pnpm 12.21.0 (or Bun 1.4.4) set up
-- [ ] PostgreSQL container with 1:1 and 1:N relationship
-- [ ] DB browser connected
-- [ ] Keycloak container: 1 realm, 1 client, >= 1 user, >= 1 role
-- [ ] Git repo with generated Drizzle code (`schema.mts`, `relations.mts`)
-- [ ] Incremental conventional commits
-- [ ] `package.json` with pnpm (or Bun)
-- [ ] oxlint and oxfmt configured
-- [ ] TypeScript state of the art, good TypeScript code (see above)
-- [ ] Hono server over HTTP/2
-- [ ] GET with path or query parameters
-- [ ] Conditional GET with `If-None-Match` (304)
-- [ ] POST with Zod validation and `Location` header
-- [ ] PUT/PATCH with Zod validation and `If-Match` (lost-update protection)
-- [ ] Errors as Problem Details (RFC 9457)
-- [ ] Drizzle: 1:1, 1:N, generated PKs, no lost updates, timestamps
-- [ ] 1 protected method, accessible only to 1 user with 1 role
-- [ ] Acceptance requests with Bruno (or Vitest + Axios over HTTP/2)
-- [ ] Data visible in a DB browser or Drizzle Studio
-- [ ] oxlint and oxfmt without findings
+- [x] Team registered by email (name, repo link, IDE, AI agent)
+- [x] Node 26.13.1 and pnpm 12.21.0 (or Bun 1.4.4) set up
+- [x] PostgreSQL container with 1:1 and 1:N relationship
+- [x] DB browser connected
+- [x] Keycloak container: 1 realm, 1 client, >= 1 user, >= 1 role
+- [x] Git repo with generated Drizzle code (`schema.mts`, `relations.mts`)
+- [x] Incremental conventional commits
+- [x] `package.json` with pnpm (or Bun)
+- [x] oxlint and oxfmt configured
+- [x] TypeScript state of the art, good TypeScript code (see above)
+- [x] Hono server over HTTP/2
+- [x] GET with path or query parameters
+- [x] Conditional GET with `If-None-Match` (304)
+- [x] POST with Zod validation and `Location` header
+- [x] PUT/PATCH with Zod validation and `If-Match` (lost-update protection)
+- [x] Errors as Problem Details (RFC 9457)
+- [x] Drizzle: 1:1, 1:N, generated PKs, no lost updates, timestamps
+- [x] 1 protected method, accessible only to 1 user with 1 role
+- [x] Acceptance requests with Bruno (or Vitest + Axios over HTTP/2)
+- [x] Data visible in a DB browser or Drizzle Studio
+- [x] oxlint and oxfmt without findings
