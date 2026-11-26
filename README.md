@@ -145,6 +145,8 @@ Base URL `https://localhost:3000`. Every response is JSON; every error is Proble
 | `GET` | `/health` | `200` with the database status, `503` if the database is not reachable |
 | `GET` | `/rest/games?title=&genre=` | `200` with the matching games (possibly `[]`); both filters are optional, case-insensitive substrings, combined with AND; unknown parameters → `422` |
 | `POST` | `/rest/games` | `201` without body and `Location: https://localhost:3000/rest/games/<id>`; optional `details` and `reviews` are created in the same transaction; invalid JSON → `400`, invalid fields → `422` with `errors` |
+| `POST` | `/rest/games/{id}/details` | `201` without body, `Location` is the game; `404` without game, `409` if the game already has details |
+| `POST` | `/rest/games/{id}/reviews` | `201` without body, `Location` is the game (it lists its reviews); `404` without game |
 | `GET` | `/rest/games/{id}` | `200` with the game, its details and reviews and `ETag: "<version>"`; `304` without body if `If-None-Match` matches; `404` if it does not exist |
 
 IDs are 1 to 10 digits without a leading zero: `/rest/games/1abc` or `/rest/games/01000` return `404`.

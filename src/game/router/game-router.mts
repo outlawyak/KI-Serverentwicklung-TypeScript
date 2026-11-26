@@ -11,10 +11,8 @@ import { type GameQuery, GameQuerySchema } from '../validation/game-validation.m
 import { matchesIfNoneMatch, toETag } from '../../etag.mts';
 import { Hono } from 'hono';
 import { HttpStatus } from '../../http-status.mts';
+import { gameIdOf } from './game-id.mts';
 import { idParameter } from '../../paths.mts';
-
-// Largest value of the PostgreSQL type `integer`; larger IDs cannot exist
-const MAX_ID = 2_147_483_647;
 
 /** An empty query value (`?title=`) means: no filter for this field. */
 const toFilter = ({ title, genre }: GameQuery): GameFilter => {
@@ -39,8 +37,8 @@ gameRouter.get('/', async (c) => {
 
 // Conditional GET: ETag from the version; with a matching If-None-Match 304 without body
 gameRouter.get(`/${idParameter}`, async (c) => {
-    const id = Number(c.req.param('id'));
-    if (id > MAX_ID) {
+    const id = gameIdOf(c);
+    if (id === undefined) {
         return c.notFound();
     }
     const game = await findById(id);

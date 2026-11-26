@@ -228,7 +228,7 @@ the agent starts on the app server.
   Done when: valid data creates a record, invalid data is rejected,
   `Location` is set.
 
-- [ ] **T4.6 POST for details and reviews**
+- [x] **T4.6 POST for details and reviews**
   `POST /rest/games/:id/details` (1:1): 404 without game, 409 if details
   already exist. `POST /rest/games/:id/reviews` (1:N): 404 without game.
   Both with Zod validation and `201` + `Location`.
