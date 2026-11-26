@@ -125,7 +125,7 @@ the agent starts on the app server.
   (plugin question from `docs/style-analysis.md` §7).
   Done when: `pnpm run lint` passes without findings and a test violation is detected.
 
-- [ ] **T1.3 Configure oxfmt**
+- [x] **T1.3 Configure oxfmt**
   `.oxfmtrc.json` (indentation, quotes, line length).
   Done when: `pnpm run fmt:check` passes without findings.
 

@@ -108,6 +108,10 @@ As in the lecturer's examples (E = enforced by configuration):
   callbacks; default values otherwise
 - Exceptions only locally and naming the exact rule
   (`// oxlint-disable-next-line <rule>`), never globally
+- oxfmt (developer's decision, T1.3): 4 spaces (YAML 2), single quotes,
+  semicolons, trailing commas, line width 120. Markdown is not formatted
+  (`ignorePatterns`); `sortImports` stays off because oxlint's `sort-imports`
+  decides the order
 - Open, to be clarified with the lecturer, do not change on your own:
   whether `oxlint-tsgolint` is needed for type-aware rules
   (see `docs/style-analysis.md` §7)

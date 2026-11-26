@@ -1,20 +1,9 @@
 {
     "name": "ai-server-typescript",
     "version": "1.0.0",
-    "description": "REST server prototype for games with Hono, Drizzle and Keycloak",
     "private": true,
+    "description": "REST server prototype for games with Hono, Drizzle and Keycloak",
     "type": "module",
-    "packageManager": "pnpm@12.21.0",
-    "devEngines": {
-        "packageManager": {
-            "name": "pnpm",
-            "version": "12.21.0",
-            "onFail": "download"
-        }
-    },
-    "engines": {
-        "node": ">=26.13.1"
-    },
     "scripts": {
         "dev": "node --watch src/main.mts",
         "start": "node src/main.mts",
@@ -35,7 +24,19 @@
         "@types/node": "^26.6.10",
         "@types/pg": "^8.23.1",
         "drizzle-kit": "^0.31.11",
+        "oxfmt": "^0.80.0",
         "oxlint": "^1.95.0",
         "typescript": "^7.0.2"
-    }
+    },
+    "devEngines": {
+        "packageManager": {
+            "name": "pnpm",
+            "version": "12.21.0",
+            "onFail": "download"
+        }
+    },
+    "engines": {
+        "node": ">=26.13.1"
+    },
+    "packageManager": "pnpm@12.21.0"
 }

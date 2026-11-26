@@ -1,77 +1,77 @@
 {
-  "realm": "games",
-  "enabled": true,
-  "sslRequired": "external",
-  "clients": [
-    {
-      "clientId": "games-client",
-      "name": "Games REST server",
-      "enabled": true,
-      "protocol": "openid-connect",
-      "publicClient": false,
-      "clientAuthenticatorType": "client-secret",
-      "secret": "${KC_CLIENT_SECRET}",
-      "standardFlowEnabled": false,
-      "implicitFlowEnabled": false,
-      "directAccessGrantsEnabled": true,
-      "serviceAccountsEnabled": false,
-      "protocolMappers": [
+    "realm": "games",
+    "enabled": true,
+    "sslRequired": "external",
+    "clients": [
         {
-          "name": "audience games-client",
-          "protocol": "openid-connect",
-          "protocolMapper": "oidc-audience-mapper",
-          "config": {
-            "included.client.audience": "games-client",
-            "access.token.claim": "true",
-            "id.token.claim": "false"
-          }
+            "clientId": "games-client",
+            "name": "Games REST server",
+            "enabled": true,
+            "protocol": "openid-connect",
+            "publicClient": false,
+            "clientAuthenticatorType": "client-secret",
+            "secret": "${KC_CLIENT_SECRET}",
+            "standardFlowEnabled": false,
+            "implicitFlowEnabled": false,
+            "directAccessGrantsEnabled": true,
+            "serviceAccountsEnabled": false,
+            "protocolMappers": [
+                {
+                    "name": "audience games-client",
+                    "protocol": "openid-connect",
+                    "protocolMapper": "oidc-audience-mapper",
+                    "config": {
+                        "included.client.audience": "games-client",
+                        "access.token.claim": "true",
+                        "id.token.claim": "false"
+                    }
+                }
+            ]
         }
-      ]
-    }
-  ],
-  "roles": {
-    "client": {
-      "games-client": [
-        {
-          "name": "admin",
-          "description": "May update games (PUT /rest/games/:id)"
+    ],
+    "roles": {
+        "client": {
+            "games-client": [
+                {
+                    "name": "admin",
+                    "description": "May update games (PUT /rest/games/:id)"
+                }
+            ]
         }
-      ]
-    }
-  },
-  "users": [
-    {
-      "username": "game-admin",
-      "enabled": true,
-      "email": "game-admin@example.com",
-      "emailVerified": true,
-      "firstName": "Game",
-      "lastName": "Admin",
-      "credentials": [
-        {
-          "type": "password",
-          "value": "${KC_ADMIN_USER_PASSWORD}",
-          "temporary": false
-        }
-      ],
-      "clientRoles": {
-        "games-client": ["admin"]
-      }
     },
-    {
-      "username": "game-user",
-      "enabled": true,
-      "email": "game-user@example.com",
-      "emailVerified": true,
-      "firstName": "Game",
-      "lastName": "User",
-      "credentials": [
+    "users": [
         {
-          "type": "password",
-          "value": "${KC_USER_PASSWORD}",
-          "temporary": false
+            "username": "game-admin",
+            "enabled": true,
+            "email": "game-admin@example.com",
+            "emailVerified": true,
+            "firstName": "Game",
+            "lastName": "Admin",
+            "credentials": [
+                {
+                    "type": "password",
+                    "value": "${KC_ADMIN_USER_PASSWORD}",
+                    "temporary": false
+                }
+            ],
+            "clientRoles": {
+                "games-client": ["admin"]
+            }
+        },
+        {
+            "username": "game-user",
+            "enabled": true,
+            "email": "game-user@example.com",
+            "emailVerified": true,
+            "firstName": "Game",
+            "lastName": "User",
+            "credentials": [
+                {
+                    "type": "password",
+                    "value": "${KC_USER_PASSWORD}",
+                    "temporary": false
+                }
+            ]
         }
-      ]
-    }
-  ]
+    ]
 }
