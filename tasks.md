@@ -283,7 +283,7 @@ the agent starts on the app server.
   `Content-Type: application/problem+json`).
   Done when: the collection is committed.
 
-- [ ] **T6.2 Run requests with Bruno** [You]
+- [x] **T6.2 Run requests with Bruno** [You]
   Run all requests against the local server over HTTP/2 (trust the mkcert
   CA in Bruno or disable certificate verification locally).
   Done when: all requests and assertions are green.
