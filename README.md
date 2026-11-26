@@ -191,6 +191,17 @@ without resetting the database.
    that `mkcert -CAROOT` prints as custom CA certificate.
 4. Run the whole collection (Runner); the folders run in order: 1 Auth, 2 GET, 3 POST, 4 PUT.
 
+Bruno talks HTTP/1.1 to the server (the server allows it for such clients). The same requests over **HTTP/2**,
+with the negotiated protocol printed for each one, come from a small script (needs the running server and
+containers, uses the mkcert CA):
+
+```shell
+pnpm run demo:http2
+```
+
+It sends GET `200`/`304`/`404`, POST `201` and PUT `401`/`403`/`428`/`412`/`204` and prints e.g.
+`HTTP/2  PUT  /rest/games/1004  204  ok`; any unexpected status makes it exit with an error.
+
 Without the app, the Bruno CLI runs the same collection (no project dependency):
 
 ```shell
@@ -210,6 +221,7 @@ pnpm dlx @usebruno/cli@4.3.0 run --env local --cacert "$(mkcert -CAROOT)/rootCA.
 | `pnpm run fmt:check` | check the formatting |
 | `pnpm run db:studio` | Drizzle Studio |
 | `pnpm run setup:env` | create `.env` with random secrets |
+| `pnpm run demo:http2` | send the main requests over HTTP/2 and print protocol and status |
 | `pnpm run setup:bruno` | write the secrets for the Bruno collection to `extras/bruno/.env` |
 | `pnpm --silent run token <user>` | print a Keycloak access token for `game-admin` or `game-user` |
 
@@ -242,7 +254,7 @@ src/game/router/             REST routes for games
 src/game/service/            reading and writing games (no HTTP), DTO, errors
 src/game/validation/         Zod schemas for the request bodies
 src/security/                JWT verification with jose, client roles (rolesRequired)
-scripts/                     setup helpers (.env, token), same on macOS and Windows
+scripts/                     setup helpers (.env, token, Bruno secrets), HTTP/2 demo; same on macOS and Windows
 certs/                       local TLS certificate (not committed)
 drizzle.config.mts           drizzle-kit (pull, Studio)
 .oxlintrc.json, .oxfmtrc.json  linter and formatter

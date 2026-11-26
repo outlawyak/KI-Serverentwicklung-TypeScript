@@ -15,7 +15,7 @@
 - [x] `created_at` and `updated_at` are set; `updated_at` changes on UPDATE
 - [x] At least one method protected by a role; 401 and 403 checked
 - [x] Problem Details also for 404, 406 and 500, with `status`
-- [ ] Demonstrable requests **or** integration tests over HTTP/2
+- [x] Demonstrable requests **or** integration tests over HTTP/2
 - [x] DB browser or Drizzle Studio ready
 - [ ] oxlint and oxfmt without errors
 - [ ] Nothing crossed out added without being asked
