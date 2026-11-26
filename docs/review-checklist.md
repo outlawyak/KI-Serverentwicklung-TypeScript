@@ -13,7 +13,7 @@
 - [x] PUT or PATCH: Zod, `If-Match`, new `ETag`
 - [x] 1:1 and 1:N visible, primary keys generated
 - [x] `created_at` and `updated_at` are set; `updated_at` changes on UPDATE
-- [ ] At least one method protected by a role; 401 and 403 checked
+- [x] At least one method protected by a role; 401 and 403 checked
 - [x] Problem Details also for 404, 406 and 500, with `status`
 - [ ] Demonstrable requests **or** integration tests over HTTP/2
 - [x] DB browser or Drizzle Studio ready
