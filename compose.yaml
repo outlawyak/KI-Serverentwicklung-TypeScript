@@ -24,5 +24,38 @@ services:
       retries: 10
     restart: unless-stopped
 
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.8.2
+    # Dev mode (HTTP, embedded H2). No volume: the realm is imported again
+    # from the repo whenever the container is recreated.
+    # https://www.keycloak.org/server/importExport#_importing_a_realm_during_startup
+    command: ["start-dev", "--import-realm"]
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: ${KC_BOOTSTRAP_ADMIN_USERNAME:?set KC_BOOTSTRAP_ADMIN_USERNAME in .env}
+      KC_BOOTSTRAP_ADMIN_PASSWORD: ${KC_BOOTSTRAP_ADMIN_PASSWORD:?set KC_BOOTSTRAP_ADMIN_PASSWORD in .env}
+      KC_HEALTH_ENABLED: "true"
+      # Resolved in games-realm.json at import time
+      # https://www.keycloak.org/server/importExport#_using_environment_variables_within_the_realm_configuration_files
+      KC_CLIENT_SECRET: ${KC_CLIENT_SECRET:?set KC_CLIENT_SECRET in .env}
+      KC_ADMIN_USER_PASSWORD: ${KC_ADMIN_USER_PASSWORD:?set KC_ADMIN_USER_PASSWORD in .env}
+      KC_USER_PASSWORD: ${KC_USER_PASSWORD:?set KC_USER_PASSWORD in .env}
+    ports:
+      - "127.0.0.1:${KEYCLOAK_PORT:-8880}:8080"
+    volumes:
+      - ./extras/keycloak/games-realm.json:/opt/keycloak/data/import/games-realm.json:ro
+    healthcheck:
+      # The image has no curl; query the management port with bash
+      test:
+        - CMD-SHELL
+        - >-
+          exec 3<>/dev/tcp/localhost/9000 &&
+          printf 'GET /health/ready HTTP/1.1\r\nHost: localhost\r\nConnection: close\r\n\r\n' >&3 &&
+          grep -q '"UP"' <&3
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 20s
+    restart: unless-stopped
+
 volumes:
   postgres-data:

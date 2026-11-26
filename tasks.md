@@ -79,7 +79,7 @@ the agent starts on the app server.
   Connect a DB browser (e.g. DBeaver or pgAdmin) to the container.
   Done when: tables and test data are visible.
 
-- [ ] **T0.9 Set up Keycloak container**
+- [x] **T0.9 Set up Keycloak container**
   Keycloak as a service in `compose.yaml` (own port, e.g. 8880). In it:
   1 realm (e.g. `games`), 1 client (e.g. `games-client`, Direct Access
   Grants enabled), 1 **client role** `admin` (as in the lecturer's examples),
