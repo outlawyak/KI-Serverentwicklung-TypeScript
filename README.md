@@ -5,10 +5,10 @@ Für das Wahlfach "KI-gestützte Serverentwicklung"
 A small REST server prototype for games, built with Hono, Drizzle ORM, PostgreSQL and Keycloak.
 Requirements: [requirements.md](requirements.md), task plan: [tasks.md](tasks.md).
 
-> **Status:** phases 0–5 are done: infrastructure, project setup, the server skeleton (HTTP/2 with TLS 1.3,
-> Problem Details for every error), the database access, the REST interface (GET with path and query parameters,
-> conditional GET, POST, PUT with lost-update protection) and the security (PUT only with the Keycloak client role
-> `admin`). The Bruno collection for the acceptance (phase 6) follows.
+> **Status:** all phases are implemented: HTTP/2 with TLS 1.3, Problem Details for every error, Drizzle with
+> 1:1 and 1:N, GET with path and query parameters, conditional GET, POST, PUT with lost-update protection, the
+> Keycloak client role `admin` for PUT, and the acceptance with Bruno and an HTTP/2 demo. Checked from a fresh clone
+> on macOS; the final check against the checklist (T6.5) is done by the developer.
 
 ## Prerequisites
 
@@ -29,6 +29,13 @@ itself (`devEngines` in `package.json`). Clone into a path **without spaces or u
 endings on Windows too.
 
 ## Setup
+
+### 0. Clone
+
+```shell
+git clone https://github.com/outlawyak/KI-Serverentwicklung-TypeScript.git ai-server-typescript
+cd ai-server-typescript
+```
 
 ### 1. Install dependencies
 
@@ -66,7 +73,9 @@ docker compose up -d --wait
 | Keycloak 26 | <http://localhost:8880> | admin console: `KC_BOOTSTRAP_ADMIN_USERNAME` and `KC_BOOTSTRAP_ADMIN_PASSWORD` |
 
 Both ports are bound to `127.0.0.1` only. The Compose project is named `ai-server-ts`, so it does not collide with
-other projects.
+other projects. If a port is already taken, change it in `.env` (`PORT`, `POSTGRES_PORT`, `KEYCLOAK_PORT`; with a
+new Keycloak port also `KEYCLOAK_ISSUER` and `KEYCLOAK_JWKS_URL`, and `baseUrl`/`keycloakUrl` in
+`extras/bruno/environments/local.bru`).
 
 **Database:** on the first start (empty volume), PostgreSQL runs [db/schema.sql](db/schema.sql): the tables `game`,
 `game_details` (1:1) and `review` (1:N) plus test data. Games have the IDs 1000–1003; game 1003 has neither details
@@ -102,7 +111,7 @@ Keycloak has no volume: `docker compose up -d --force-recreate keycloak` resets 
 ### 4. Create the TLS certificate
 
 The server speaks HTTP/2 over TLS 1.3 and needs a certificate for `localhost`. mkcert creates it, signed by a
-local CA of your own:
+local CA of your own (the first mkcert call creates that CA):
 
 ```shell
 mkdir certs

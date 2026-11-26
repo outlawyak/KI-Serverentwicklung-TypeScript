@@ -293,7 +293,7 @@ the agent starts on the app server.
   (new IDs, `version`, `created_at`, `updated_at`).
   Done when: the changes are visible.
 
-- [ ] **T6.4 README** [Agent]
+- [x] **T6.4 README** [Agent]
   Setup (Node, pnpm, Compose, certificate, Keycloak), scripts, endpoints,
   examples for conditional GET and `If-Match`, note on the AI agent used.
   Done when: a fresh clone can be started by following the README.
