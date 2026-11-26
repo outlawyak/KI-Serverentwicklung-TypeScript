@@ -8,6 +8,7 @@
 
 import { type ServerHttp2Session, createSecureServer } from 'node:http2';
 import { app } from './app.mts';
+import { closeDatabase } from './db/client.mts';
 import { config } from './config/config.mts';
 import { getLogger } from './logger.mts';
 import process from 'node:process';
@@ -41,7 +42,12 @@ server.on('session', (session: ServerHttp2Session) => {
 
 const shutdown = (signal: NodeJS.Signals): void => {
     log.info(`${signal} received, shutting down`);
-    server.once('close', () => log.info('Server closed'));
+    // First no new requests, then the database connection
+    server.once('close', async () => {
+        log.info('Server closed');
+        await closeDatabase();
+        log.info('Database connection closed');
+    });
     server.close();
     // Lets running requests finish, then closes the session
     sessions.forEach((session) => session.close());

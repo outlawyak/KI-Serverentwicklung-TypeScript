@@ -14,6 +14,7 @@ import { Hono } from 'hono';
 import { HttpStatus } from './http-status.mts';
 import { getLogger } from './logger.mts';
 import { healthPath } from './paths.mts';
+import { isDatabaseReachable } from './db/client.mts';
 import { performance } from 'node:perf_hooks';
 import { problemResponse } from './problem-details.mts';
 
@@ -80,7 +81,17 @@ app.use(async (c, next) => {
     return await next();
 });
 
-app.get(healthPath, (c) => c.json({ status: 'UP' }));
+// Not ready without the database: 503 as Problem Details, like every other error
+app.get(healthPath, async (c) => {
+    if (!(await isDatabaseReachable())) {
+        return problemResponse(c, {
+            status: HttpStatus.ServiceUnavailable,
+            detail: 'The database is not reachable',
+            extensions: { database: 'DOWN' },
+        });
+    }
+    return c.json({ status: 'UP', database: 'UP' });
+});
 
 app.notFound((c) =>
     problemResponse(c, { status: HttpStatus.NotFound, detail: `There is no resource ${c.req.method} ${c.req.path}` }),

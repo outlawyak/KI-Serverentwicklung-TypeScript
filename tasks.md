@@ -176,7 +176,7 @@ the agent starts on the app server.
 
 ## Phase 3: Database Access [Agent]
 
-- [ ] **T3.1 Drizzle client**
+- [x] **T3.1 Drizzle client**
   `src/db/client.mts`: Drizzle with `node-postgres`, schema and relations
   from the generated files. `/health` also checks the DB connection.
   Done when: `/health` reports a reachable database.

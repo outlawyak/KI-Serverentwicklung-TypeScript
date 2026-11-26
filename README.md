@@ -125,7 +125,8 @@ HTTP/1.1 for clients without HTTP/2) and stops cleanly with Ctrl+C. Check it:
 curl --http2 -i --cacert "$(mkcert -CAROOT)/rootCA.pem" https://localhost:3000/health
 ```
 
-Expected: `HTTP/2 200` and `{"status":"UP"}`. On Windows, write `curl.exe` instead of `curl` (in PowerShell,
+Expected: `HTTP/2 200` and `{"status":"UP","database":"UP"}`. If PostgreSQL is not running, `/health` answers
+`503` as Problem Details with `"database":"DOWN"`. On Windows, write `curl.exe` instead of `curl` (in PowerShell,
 `curl` is an alias for `Invoke-WebRequest`); `curl.exe --version` must list `HTTP2` under Features.
 
 ### 6. Look at the data
@@ -170,7 +171,7 @@ src/app.mts                  Hono app: middleware and routes
 src/paths.mts                URL paths (REST base /rest)
 src/logger.mts               central logger (pino)
 src/config/config.mts        validated configuration from .env
-src/db/                      Drizzle schema and relations
+src/db/                      Drizzle schema, relations and client (connection pool)
 scripts/                     setup helpers (.env, token), same on macOS and Windows
 certs/                       local TLS certificate (not committed)
 drizzle.config.mts           drizzle-kit (pull, Studio)

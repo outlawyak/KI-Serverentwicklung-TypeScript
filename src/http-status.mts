@@ -20,4 +20,5 @@ export const HttpStatus = {
     UnprocessableContent: 422,
     PreconditionRequired: 428,
     InternalServerError: 500,
+    ServiceUnavailable: 503,
 } as const;
