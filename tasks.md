@@ -195,7 +195,7 @@ the agent starts on the app server.
 
 ## Phase 4: REST Interface [Agent]
 
-- [ ] **T4.1 Zod schemas**
+- [x] **T4.1 Zod schemas**
   `src/game/validation/game-validation.mts`: `z.strictObject` as the base,
   `omit()` to derive the create and update schemas (main entity only),
   plus details and review (e.g. `rating` 1–5), each `.readonly()`, types
@@ -220,7 +220,7 @@ the agent starts on the app server.
   `If-None-Match`, the server responds with `304 Not Modified` without body.
   Done when: a repeated request with a matching header returns 304.
 
-- [ ] **T4.5 POST for games**
+- [x] **T4.5 POST for games**
   `src/game/router/game-write-router.mts`: `POST /rest/games` creates a game
   (Zod validation), responds with `201 Created` without body and an absolute
   `Location` pointing to `/rest/games/<id>`, which can be fetched via GET.

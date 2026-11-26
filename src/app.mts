@@ -12,6 +12,7 @@ import { handleError, handleNotFound } from './error-handler.mts';
 import { Hono } from 'hono';
 import { HttpStatus } from './http-status.mts';
 import { gameRouter } from './game/router/game-router.mts';
+import { gameWriteRouter } from './game/router/game-write-router.mts';
 import { getLogger } from './logger.mts';
 import { isDatabaseReachable } from './db/client.mts';
 import { performance } from 'node:perf_hooks';
@@ -76,6 +77,7 @@ app.get(healthPath, async (c) => {
 });
 
 app.route(gamesPath, gameRouter);
+app.route(gamesPath, gameWriteRouter);
 
 app.notFound(handleNotFound);
 app.onError(handleError);
