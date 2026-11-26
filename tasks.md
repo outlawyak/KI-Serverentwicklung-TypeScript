@@ -24,16 +24,16 @@ How to use:
 The checklist requires everything in this phase as "prepared", i.e. before
 the agent starts on the app server.
 
-- [ ] **T0.1 Register team**
+- [x] **T0.1 Register team**
   Email to the lecturer: name(s), link to the Git repository, IDE, AI agent(s).
   The deadline was Fri, 20 Nov, 12:00.
   Done when: email sent.
 
-- [ ] **T0.2 Create Git repository**
+- [x] **T0.2 Create Git repository**
   Create an empty GitHub repository and clone it locally.
   Done when: empty repo is cloned.
 
-- [ ] **T0.3 Add project documents**
+- [x] **T0.3 Add project documents**
   Add `requirements.md`, `AGENTS.md`, `tasks.md`, `CLAUDE.md` (containing
   `@AGENTS.md`) and the `docs/` folder to the repo, plus a `.gitignore`
   (`node_modules/`, `.env`, `certs/`).
