@@ -1,15 +1,13 @@
 /**
- * The Hono application: middleware, routes and the central error handling.
- * The server is started in `main.mts`, so the app can also be used without a
- * network (`app.request`).
+ * The Hono application: middleware and routes. Errors are handled centrally
+ * in `error-handler.mts`. The server is started in `main.mts`, so the app can
+ * also be used without a network (`app.request`).
  * https://hono.dev/docs/api/hono
  *
  * @packageDocumentation
  */
 
-import { DetailsExistsError, NotFoundError, VersionOutdatedError } from './game/service/errors.mts';
-import type { ContentfulStatusCode } from 'hono/utils/http-status';
-import { HTTPException } from 'hono/http-exception';
+import { handleError, handleNotFound } from './error-handler.mts';
 import { Hono } from 'hono';
 import { HttpStatus } from './http-status.mts';
 import { getLogger } from './logger.mts';
@@ -41,23 +39,6 @@ const acceptsJson = (accept: string | undefined): boolean => {
             quality !== undefined && Number(quality.slice(QUALITY_PREFIX.length)) === QUALITY_NOT_ACCEPTABLE;
         return !rejected && jsonMediaRanges.has(range);
     });
-};
-
-/** Status code for the errors of the services; `undefined` means unexpected. */
-const statusOf = (error: Error): ContentfulStatusCode | undefined => {
-    if (error instanceof NotFoundError) {
-        return HttpStatus.NotFound;
-    }
-    if (error instanceof DetailsExistsError) {
-        return HttpStatus.Conflict;
-    }
-    if (error instanceof VersionOutdatedError) {
-        return HttpStatus.PreconditionFailed;
-    }
-    if (error instanceof HTTPException) {
-        return error.status;
-    }
-    return undefined;
 };
 
 export const app = new Hono();
@@ -93,21 +74,5 @@ app.get(healthPath, async (c) => {
     return c.json({ status: 'UP', database: 'UP' });
 });
 
-app.notFound((c) =>
-    problemResponse(c, { status: HttpStatus.NotFound, detail: `There is no resource ${c.req.method} ${c.req.path}` }),
-);
-
-// Hono's error handler API takes the error as the first parameter
-// oxlint-disable-next-line promise/prefer-await-to-callbacks
-app.onError((error, c) => {
-    const status = statusOf(error);
-    if (status !== undefined) {
-        return problemResponse(c, { status, detail: error.message });
-    }
-    // Details only in the log, never in the response
-    log.error({ err: error }, 'Unexpected error');
-    return problemResponse(c, {
-        status: HttpStatus.InternalServerError,
-        detail: 'An unexpected error occurred on the server',
-    });
-});
+app.notFound(handleNotFound);
+app.onError(handleError);
