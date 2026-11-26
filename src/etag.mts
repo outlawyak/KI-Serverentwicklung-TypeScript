@@ -6,7 +6,13 @@
  * @packageDocumentation
  */
 
+import { MAX_INTEGER } from './db/limits.mts';
+
 const WEAK_PREFIX = 'W/';
+
+// Exactly one strong entity tag with a version: `"0"`, `"12"`.
+// Anchored at both ends: `"0"abc`, `W/"0"`, `*` or lists do not match
+const IF_MATCH_PATTERN = /^"(?<version>0|[1-9][0-9]{0,9})"$/u;
 
 /** Removes the weak prefix: `W/"0"` becomes `"0"`. */
 const withoutWeakPrefix = (tag: string): string => {
@@ -41,4 +47,20 @@ export const matchesIfNoneMatch = (header: string | undefined, etag: string): bo
         .split(',')
         .map((tag) => tag.trim())
         .some((tag) => tag === '*' || withoutWeakPrefix(tag) === etag);
+};
+
+/**
+ * Reads the version from `If-Match` for the lost-update protection. Only one
+ * strong entity tag is accepted (strong comparison, RFC 9110 §13.1.1).
+ * https://www.rfc-editor.org/rfc/rfc9110#name-if-match
+ *
+ * @param header value of `If-Match`
+ * @returns the version, or `undefined` if the format is invalid (respond with 412)
+ */
+export const versionOfIfMatch = (header: string): number | undefined => {
+    const version = IF_MATCH_PATTERN.exec(header.trim())?.groups?.['version'];
+    if (version === undefined || Number(version) > MAX_INTEGER) {
+        return undefined;
+    }
+    return Number(version);
 };

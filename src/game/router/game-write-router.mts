@@ -7,12 +7,19 @@
  * @packageDocumentation
  */
 
-import { GameCreateSchema, GameDetailsCreateSchema, ReviewCreateSchema } from '../validation/game-validation.mts';
-import { create, createDetails, createReview } from '../service/game-write-service.mts';
+import {
+    GameCreateSchema,
+    GameDetailsCreateSchema,
+    GameUpdateSchema,
+    ReviewCreateSchema,
+} from '../validation/game-validation.mts';
+import { create, createDetails, createReview, update } from '../service/game-write-service.mts';
 import { gamesPath, idParameter } from '../../paths.mts';
+import { toETag, versionOfIfMatch } from '../../etag.mts';
 import { Hono } from 'hono';
 import { HttpStatus } from '../../http-status.mts';
 import { gameIdOf } from './game-id.mts';
+import { problemResponse } from '../../problem-details.mts';
 import { readJsonBody } from '../../request-body.mts';
 
 /** Absolute URL of a game, for the `Location` header; scheme and host from the request. */
@@ -50,4 +57,31 @@ gameWriteRouter.post(`/${idParameter}/reviews`, async (c) => {
     await createReview(id, review);
     c.header('Location', gameUrl(c.req.url, id));
     return c.body(null, HttpStatus.Created);
+});
+
+// Lost-update protection: If-Match required (428), exactly the current version (otherwise 412).
+// The service checks the version in the same UPDATE statement, so concurrent updates cannot both succeed
+gameWriteRouter.put(`/${idParameter}`, async (c) => {
+    const id = gameIdOf(c);
+    if (id === undefined) {
+        return c.notFound();
+    }
+    const ifMatch = c.req.header('If-Match');
+    if (ifMatch === undefined) {
+        return problemResponse(c, {
+            status: HttpStatus.PreconditionRequired,
+            detail: 'The header If-Match with the current version is required, e.g. If-Match: "0"',
+        });
+    }
+    const version = versionOfIfMatch(ifMatch);
+    if (version === undefined) {
+        return problemResponse(c, {
+            status: HttpStatus.PreconditionFailed,
+            detail: 'The header If-Match must contain exactly one version in quotes, e.g. If-Match: "0"',
+        });
+    }
+    const game = GameUpdateSchema.parse(await readJsonBody(c));
+    const newVersion = await update(id, version, game);
+    c.header('ETag', toETag(newVersion));
+    return c.body(null, HttpStatus.NoContent);
 });

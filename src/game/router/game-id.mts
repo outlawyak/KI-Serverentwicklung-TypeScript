@@ -6,9 +6,7 @@
  */
 
 import type { Context } from 'hono';
-
-// Largest value of the PostgreSQL type `integer`; larger IDs cannot exist
-const MAX_ID = 2_147_483_647;
+import { MAX_INTEGER } from '../../db/limits.mts';
 
 /**
  * Returns the game ID of a route with `idParameter`.
@@ -18,7 +16,7 @@ const MAX_ID = 2_147_483_647;
  */
 export const gameIdOf = (c: Context): number | undefined => {
     const id = Number(c.req.param('id'));
-    if (id > MAX_ID) {
+    if (id > MAX_INTEGER) {
         return undefined;
     }
     return id;

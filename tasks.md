@@ -235,7 +235,7 @@ the agent starts on the app server.
   Done when: details can be created only once, reviews any number of
   times, invalid data is rejected.
 
-- [ ] **T4.7 PUT with lost-update protection**
+- [x] **T4.7 PUT with lost-update protection**
   `PUT /rest/games/:id` with Zod validation. `If-Match` required: missing
   → 428; format checked with a regex anchored at both ends, the version must
   be **equal**, otherwise 412 (both as Problem Details). A single
