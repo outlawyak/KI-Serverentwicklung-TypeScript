@@ -39,7 +39,7 @@ the agent starts on the app server.
   (`node_modules/`, `.env`, `certs/`).
   Done when: committed as `docs: add project requirements and agent instructions (T0.3)`.
 
-- [ ] **T0.4 Install Node and pnpm**
+- [x] **T0.4 Install Node and pnpm**
   Node 26.13.1 (e.g. via fnm or nvm) and pnpm 12.21.0
   (e.g. `corepack enable && corepack prepare pnpm@12.21.0 --activate`).
   Note: Node 24 was last active on this machine, and pnpm was not on the `PATH`.
