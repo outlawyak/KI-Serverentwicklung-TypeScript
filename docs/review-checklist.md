@@ -8,11 +8,11 @@
 - [x] Keycloak: 1 realm, 1 client, at least 1 user and 1 role
 - [x] `schema.mts` and `relations.mts` derived from Drizzle; many small commits
 - [x] Response demonstrably over HTTP/2
-- [ ] GET with path or query parameter; `If-None-Match` returns 304
-- [ ] POST: Zod, 201, `Location` can be fetched
-- [ ] PUT or PATCH: Zod, `If-Match`, new `ETag`
-- [ ] 1:1 and 1:N visible, primary keys generated
-- [ ] `created_at` and `updated_at` are set; `updated_at` changes on UPDATE
+- [x] GET with path or query parameter; `If-None-Match` returns 304
+- [x] POST: Zod, 201, `Location` can be fetched
+- [x] PUT or PATCH: Zod, `If-Match`, new `ETag`
+- [x] 1:1 and 1:N visible, primary keys generated
+- [x] `created_at` and `updated_at` are set; `updated_at` changes on UPDATE
 - [ ] At least one method protected by a role; 401 and 403 checked
 - [x] Problem Details also for 404, 406 and 500, with `status`
 - [ ] Demonstrable requests **or** integration tests over HTTP/2
@@ -22,12 +22,12 @@
 
 ## Typical Mistakes
 
-- [ ] Two concurrent updates with the same version: exactly one succeeds, the other returns 412
-- [ ] `If-Match: "999"` and `"0"abc` are rejected; a missing header returns 428
-- [ ] `/rest/1abc` returns 404
+- [x] Two concurrent updates with the same version: exactly one succeeds, the other returns 412
+- [x] `If-Match: "999"` and `"0"abc` are rejected; a missing header returns 428
+- [x] `/rest/1abc` returns 404
 - [ ] Decimal values are preserved
-- [ ] Optional Zod fields match `NOT NULL` columns
-- [ ] An object without 1:N children is found
+- [x] Optional Zod fields match `NOT NULL` columns
+- [x] An object without 1:N children is found
 - [ ] A duplicate unique value returns 422, also on update
 - [ ] No secrets in Git or logs
 
